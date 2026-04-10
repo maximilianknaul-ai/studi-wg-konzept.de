@@ -1512,3 +1512,224 @@ function showResult() {
   document.getElementById('modal').scrollTop = 0;
 }
 </script>
+
+
+<!-- ══════════ QUIZ MODAL ══════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+
+    <div class="modal-header">
+      <div class="modal-top">
+        <span class="modal-label">Investment-Machbarkeitscheck</span>
+        <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+        <span class="progress-text" id="progressText">Start</span>
+      </div>
+    </div>
+
+    <!-- SCHRITT 0: Name + DSGVO -->
+    <div class="question active" id="q0">
+      <div class="modal-body">
+        <div class="q-step">Kurz vorstellen</div>
+        <div class="q-text">Wie heißt du?</div>
+        <div class="q-hint">Damit wir dich im Gespräch persönlich ansprechen können.</div>
+        <div class="name-input-wrap">
+          <input type="text" id="nameInput" placeholder="Dein Vorname" oninput="checkName()" autocomplete="given-name">
+        </div>
+        <div class="dsgvo-wrap">
+          <input type="checkbox" id="dsgvoCheck" onchange="checkName()">
+          <label for="dsgvoCheck">Ich stimme zu, dass meine Angaben zur Kontaktaufnahme und Beratung gespeichert werden. <a href="#" onclick="return false;">Datenschutzhinweis</a></label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-next" id="next0" onclick="nextQuestion(0)" disabled>Weiter</button>
+      </div>
+    </div>
+
+    <!-- F1 -->
+    <div class="question" id="q1">
+      <div class="modal-body">
+        <div class="q-step">Frage 1 von 7</div>
+        <div class="q-text">Wie sieht deine Lebenssituation aus?</div>
+        <div class="q-hint">Das beeinflusst das kombinierte Einkommen und die steuerliche Wirkung.</div>
+        <div class="options">
+          <div class="option" onclick="selectOption(this,'q1','single')"><span class="option-icon">&#x1F9D1;</span><span class="option-text"><span class="option-title">Single</span><span class="option-sub">Ich investiere alleine</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q1','paar')"><span class="option-icon">&#x1F46B;</span><span class="option-text"><span class="option-title">Verheiratet / Feste Partnerschaft</span><span class="option-sub">Wir investieren gemeinsam oder zusammen veranlagt</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q1','unklar')"><span class="option-icon">&#x1F914;</span><span class="option-text"><span class="option-title">Noch unklar / M&#xF6;chte ich besprechen</span><span class="option-sub">Ich bin mir noch nicht sicher</span></span><span class="option-check">&#x2713;</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-back visible" onclick="prevQuestion(1)">Zur&#xFC;ck</button>
+        <button class="btn-next" id="next1" onclick="nextQuestion(1)" disabled>Weiter</button>
+      </div>
+    </div>
+
+    <!-- F2 -->
+    <div class="question" id="q2">
+      <div class="modal-body">
+        <div class="q-step">Frage 2 von 7</div>
+        <div class="q-text">Wie hoch ist dein Bruttoeinkommen pro Jahr?</div>
+        <div class="q-hint">Bei Paaren bitte das gemeinsame Einkommen angeben.</div>
+        <div class="options">
+          <div class="option" onclick="selectOption(this,'q2','unter40')"><span class="option-icon">&#x1F4BC;</span><span class="option-text"><span class="option-title">Unter 40.000 &#x20AC;</span><span class="option-sub">Als Single oder gemeinsam</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q2','40-70')"><span class="option-icon">&#x1F4BC;</span><span class="option-text"><span class="option-title">40.000 &#x2013; 70.000 &#x20AC;</span><span class="option-sub">Solides Einkommen</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q2','70-120')"><span class="option-icon">&#x1F4BC;</span><span class="option-text"><span class="option-title">70.000 &#x2013; 120.000 &#x20AC;</span><span class="option-sub">&#xDC;berdurchschnittlich &#x2013; hohe steuerliche Wirkung</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q2','ueber120')"><span class="option-icon">&#x1F4BC;</span><span class="option-text"><span class="option-title">&#xDC;ber 120.000 &#x20AC;</span><span class="option-sub">Maximale steuerliche Hebelwirkung m&#xF6;glich</span></span><span class="option-check">&#x2713;</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-back visible" onclick="prevQuestion(2)">Zur&#xFC;ck</button>
+        <button class="btn-next" id="next2" onclick="nextQuestion(2)" disabled>Weiter</button>
+      </div>
+    </div>
+
+    <!-- F3 -->
+    <div class="question" id="q3">
+      <div class="modal-body">
+        <div class="q-step">Frage 3 von 7</div>
+        <div class="q-text">Wie viel Eigenkapital k&#xF6;nntest du einsetzen?</div>
+        <div class="q-hint">Das Investment wird bankfinanziert &#x2013; du brauchst kein gro&#xDF;es Eigenkapital.</div>
+        <div class="options grid-2">
+          <div class="option" onclick="selectOption(this,'q3','unter10')"><span class="option-text"><span class="option-title">Unter 10.000 &#x20AC;</span><span class="option-sub">Wenig R&#xFC;cklagen</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q3','10-30')"><span class="option-text"><span class="option-title">10.000 &#x2013; 30.000 &#x20AC;</span><span class="option-sub">Solide Basis</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q3','30-60')"><span class="option-text"><span class="option-title">30.000 &#x2013; 60.000 &#x20AC;</span><span class="option-sub">Gute Ausgangslage</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q3','ueber60')"><span class="option-text"><span class="option-title">&#xDC;ber 60.000 &#x20AC;</span><span class="option-sub">Starke Eigenkapitalbasis</span></span><span class="option-check">&#x2713;</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-back visible" onclick="prevQuestion(3)">Zur&#xFC;ck</button>
+        <button class="btn-next" id="next3" onclick="nextQuestion(3)" disabled>Weiter</button>
+      </div>
+    </div>
+
+    <!-- F4 -->
+    <div class="question" id="q4">
+      <div class="modal-body">
+        <div class="q-step">Frage 4 von 7</div>
+        <div class="q-text">Wie viel Erfahrung hast du mit Investments?</div>
+        <div class="q-hint">Keine Erfahrung? Kein Problem &#x2013; das Konzept ist bewusst f&#xFC;r Einsteiger strukturiert.</div>
+        <div class="options">
+          <div class="option" onclick="selectOption(this,'q4','keine')"><span class="option-icon">&#x1F331;</span><span class="option-text"><span class="option-title">Keine Erfahrung</span><span class="option-sub">Ich habe noch nie investiert</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q4','etf')"><span class="option-icon">&#x1F4CA;</span><span class="option-text"><span class="option-title">ETFs / Aktien / Fonds</span><span class="option-sub">Ich kenne mich mit Wertpapieren aus</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q4','immo')"><span class="option-icon">&#x1F3E0;</span><span class="option-text"><span class="option-title">Erste Immobilienerfahrung</span><span class="option-sub">Ich habe schon &#xFC;ber Immobilien nachgedacht oder bin Eigennutzer</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q4','profi')"><span class="option-icon">&#x1F3AF;</span><span class="option-text"><span class="option-title">Mehrere Anlageklassen</span><span class="option-sub">Ich investiere bereits aktiv und suche weitere Diversifikation</span></span><span class="option-check">&#x2713;</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-back visible" onclick="prevQuestion(4)">Zur&#xFC;ck</button>
+        <button class="btn-next" id="next4" onclick="nextQuestion(4)" disabled>Weiter</button>
+      </div>
+    </div>
+
+    <!-- F5 -->
+    <div class="question" id="q5">
+      <div class="modal-body">
+        <div class="q-step">Frage 5 von 7</div>
+        <div class="q-text">Was ist dein wichtigstes Ziel mit diesem Investment?</div>
+        <div class="q-hint">W&#xE4;hle das wichtigste Ziel aus.</div>
+        <div class="options">
+          <div class="option" onclick="selectOption(this,'q5','altersvorsorge')"><span class="option-icon">&#x1F3D6;&#xFE0F;</span><span class="option-text"><span class="option-title">Altersvorsorge aufbauen</span><span class="option-sub">Langfristige finanzielle Sicherheit im Alter</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q5','vermoegen')"><span class="option-icon">&#x1F4C8;</span><span class="option-text"><span class="option-title">Verm&#xF6;gen aufbauen</span><span class="option-sub">Echtes Kapital durch Tilgung und Wertsteigerung</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q5','steuer')"><span class="option-icon">&#x1F4B6;</span><span class="option-text"><span class="option-title">Steuern sparen</span><span class="option-sub">Steuerlast jetzt reduzieren und Netto optimieren</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q5','passiv')"><span class="option-icon">&#x1F634;</span><span class="option-text"><span class="option-title">Passives Einkommen</span><span class="option-sub">Geld arbeiten lassen ohne eigenen Aufwand</span></span><span class="option-check">&#x2713;</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-back visible" onclick="prevQuestion(5)">Zur&#xFC;ck</button>
+        <button class="btn-next" id="next5" onclick="nextQuestion(5)" disabled>Weiter</button>
+      </div>
+    </div>
+
+    <!-- F6 -->
+    <div class="question" id="q6">
+      <div class="modal-body">
+        <div class="q-step">Frage 6 von 7</div>
+        <div class="q-text">&#xDC;ber welchen Zeitraum denkst du?</div>
+        <div class="q-hint">Das Investment ist f&#xFC;r mindestens 10 Jahre konzipiert &#x2013; danach steuerfreier Verkauf m&#xF6;glich.</div>
+        <div class="options grid-2">
+          <div class="option" onclick="selectOption(this,'q6','kurz')"><span class="option-text"><span class="option-title">Unter 5 Jahre</span><span class="option-sub">Kurzfristig</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q6','mittel')"><span class="option-text"><span class="option-title">5 &#x2013; 10 Jahre</span><span class="option-sub">Mittelfristig</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q6','lang')"><span class="option-text"><span class="option-title">10 &#x2013; 20 Jahre</span><span class="option-sub">Langfristig</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q6','sehrlang')"><span class="option-text"><span class="option-title">20+ Jahre</span><span class="option-sub">Generationenplanung</span></span><span class="option-check">&#x2713;</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-back visible" onclick="prevQuestion(6)">Zur&#xFC;ck</button>
+        <button class="btn-next" id="next6" onclick="nextQuestion(6)" disabled>Weiter</button>
+      </div>
+    </div>
+
+    <!-- F7 -->
+    <div class="question" id="q7">
+      <div class="modal-body">
+        <div class="q-step">Frage 7 von 7</div>
+        <div class="q-text">Was hat dich bisher zur&#xFC;ckgehalten?</div>
+        <div class="q-hint">Ganz ehrlich &#x2013; das hilft uns, das Gespr&#xE4;ch optimal auf dich vorzubereiten.</div>
+        <div class="options">
+          <div class="option" onclick="selectOption(this,'q7','komplex')"><span class="option-icon">&#x1F9E9;</span><span class="option-text"><span class="option-title">Zu komplex und un&#xFC;bersichtlich</span><span class="option-sub">Ich verstehe das Thema noch nicht gut genug</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q7','vertrauen')"><span class="option-icon">&#x1F91D;</span><span class="option-text"><span class="option-title">Kein Vertrauen / Schlechte Erfahrungen</span><span class="option-sub">Ich bin skeptisch gegen&#xFC;ber Anbietern in diesem Bereich</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q7','warten')"><span class="option-icon">&#x23F3;</span><span class="option-text"><span class="option-title">Warte auf den richtigen Moment</span><span class="option-sub">Irgendwann, aber noch nicht jetzt</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q7','nichts')"><span class="option-icon">&#x1F680;</span><span class="option-text"><span class="option-title">Nichts &#x2013; ich bin bereit</span><span class="option-sub">Ich m&#xF6;chte konkret anfangen</span></span><span class="option-check">&#x2713;</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-back visible" onclick="prevQuestion(7)">Zur&#xFC;ck</button>
+        <button class="btn-next" id="next7" onclick="showResult()" disabled>Ergebnis anzeigen</button>
+      </div>
+    </div>
+
+    <!-- ERGEBNIS GREAT -->
+    <div class="result" id="result-great">
+      <div class="result-header">
+        <div class="result-icon great">&#x2713;</div>
+        <div class="result-badge great">Sehr gutes Match</div>
+        <div class="result-title">Das Study-WG-Konzept<br><em>passt sehr gut zu dir.</em></div>
+        <p class="result-text">Deine Situation zeigt ein klares Bild. Jetzt geht es darum, die konkreten Zahlen f&#xFC;r dein Profil zu berechnen. Buch dir direkt einen Termin &#x2013; kostenlos, unverbindlich.</p>
+      </div>
+      <div class="result-summary" id="summary-great"></div>
+      <div class="cal-embed-wrap">
+        <iframe src="https://cal.com/susanne-schaffer-tlkj0o/30min?embed=true" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <p class="result-fine">Kein Spam &middot; Keine Verpflichtung &middot; Deine Daten bleiben privat</p>
+    </div>
+
+    <!-- ERGEBNIS GOOD -->
+    <div class="result" id="result-good">
+      <div class="result-header">
+        <div class="result-icon good">&#x1F44D;</div>
+        <div class="result-badge good">Gutes Match</div>
+        <div class="result-title">Das Konzept k&#xF6;nnte<br><em>gut zu dir passen.</em></div>
+        <p class="result-text">Deine Situation zeigt Potenzial. In einem kurzen Gespr&#xE4;ch pr&#xFC;fen wir gemeinsam, ob die Rahmenbedingungen f&#xFC;r dich stimmen.</p>
+      </div>
+      <div class="result-summary" id="summary-good"></div>
+      <div class="cal-embed-wrap">
+        <iframe src="https://cal.com/susanne-schaffer-tlkj0o/30min?embed=true" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <p class="result-fine">Kein Spam &middot; Keine Verpflichtung &middot; Deine Daten bleiben privat</p>
+    </div>
+
+    <!-- ERGEBNIS EXPLORE -->
+    <div class="result" id="result-explore">
+      <div class="result-header">
+        <div class="result-icon explore">&#x1F4A1;</div>
+        <div class="result-badge explore">Lass uns reden</div>
+        <div class="result-title">Deine Situation verdient<br><em>ein ehrliches Gespr&#xE4;ch.</em></div>
+        <p class="result-text">Nicht jede Ausgangssituation passt auf Anhieb &#x2013; aber das l&#xE4;sst sich oft mit einem Gespr&#xE4;ch kl&#xE4;ren. Wir sagen dir ehrlich, was f&#xFC;r dich realistisch ist.</p>
+      </div>
+      <div class="result-summary" id="summary-explore"></div>
+      <div class="next-steps">
+        <h4>Was wir gemeinsam kl&#xE4;ren</h4>
+        <div class="next-step-item"><div class="ns-num">1</div><div class="ns-text"><b>Was jetzt m&#xF6;glich ist</b> &#x2013; und was vielleicht in 1&#x2013;2 Jahren realistisch wird.</div></div>
+        <div class="next-step-item"><div class="ns-num">2</div><div class="ns-text"><b>Welche Voraussetzungen fehlen</b> &#x2013; und wie du sie konkret aufbaust.</div></div>
+        <div class="next-step-item"><div class="ns-num">3</div><div class="ns-text"><b>Kein Verkaufsgespr&#xE4;ch</b> &#x2013; wenn es jetzt nicht passt, sagen wir das. Ehrlich.</div></div>
+      </div>
+      <div class="cal-embed-wrap">
+        <iframe src="https://cal.com/susanne-schaffer-tlkj0o/30min?embed=true" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <p class="result-fine">Kein Spam &middot; Keine Verpflichtung &middot; Deine Daten bleiben privat</p>
+    </div>
+
+  </div>
+</div>
