@@ -794,8 +794,136 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
   .hero-h1 { font-size: 2rem; }
   .hero-h1 .badge { font-size: 0.5em; }
   .leipzig-stats { grid-template-columns: 1fr 1fr; }
-  .card-row span:first-child { flex: 0 0 100%; }
-  .rt-row .rk { flex: 0 0 100%; }
+}
+
+/* QUIZ MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(13,26,16,0.6); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: #ffffff; border: 1px solid var(--border); border-radius: 16px;
+  width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(13,26,16,0.15);
+  transform: translateY(20px) scale(0.98); transition: transform 0.3s ease;
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+.modal::-webkit-scrollbar { width: 4px; }
+.modal::-webkit-scrollbar-thumb { background: rgba(13,26,16,0.15); border-radius: 2px; }
+.modal-header {
+  padding: 24px 28px 18px; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 10; background: #fff;
+}
+.modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.modal-label { font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green-mid); font-weight: 600; }
+.modal-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(13,26,16,0.05); border: 1px solid var(--border);
+  color: var(--text-mid); cursor: pointer; font-size: 0.9rem;
+  display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+}
+.modal-close:hover { background: rgba(13,26,16,0.1); color: var(--text); }
+.progress-wrap { display: flex; align-items: center; gap: 12px; }
+.progress-bar-bg { flex: 1; height: 4px; background: rgba(13,26,16,0.08); border-radius: 2px; overflow: hidden; }
+.progress-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--green), var(--green-br)); transition: width 0.4s ease; }
+.progress-text { font-size: 0.7rem; color: var(--text-dim); white-space: nowrap; font-family: 'Space Grotesk', monospace; }
+.modal-body { padding: 28px; }
+.question { display: none; }
+.question.active { display: block; animation: fadeInQ 0.25s ease; }
+@keyframes fadeInQ { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
+.q-step { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; font-weight: 600; }
+.q-text { font-family: 'Instrument Serif', serif; font-size: clamp(1.2rem, 3vw, 1.6rem); color: var(--text); line-height: 1.2; margin-bottom: 6px; }
+.q-hint { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px; }
+.name-input-wrap { margin-bottom: 16px; }
+.name-input-wrap input {
+  width: 100%; padding: 14px 16px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 1rem; font-family: 'DM Sans', sans-serif;
+  color: var(--text); background: #fafaf8; outline: none; transition: border-color 0.2s;
+}
+.name-input-wrap input:focus { border-color: var(--green-mid); }
+.name-input-wrap input::placeholder { color: var(--text-dim); }
+.dsgvo-wrap {
+  display: flex; align-items: flex-start; gap: 10px; padding: 14px 16px;
+  background: rgba(13,26,16,0.03); border: 1px solid var(--border);
+  border-radius: 8px; margin-bottom: 8px; cursor: pointer;
+}
+.dsgvo-wrap input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--green); margin-top: 1px; cursor: pointer; }
+.dsgvo-wrap label { font-size: 0.78rem; color: var(--text-mid); line-height: 1.5; cursor: pointer; }
+.dsgvo-wrap label a { color: var(--green-mid); text-decoration: underline; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.options.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.option {
+  background: #f8f5ef; border: 1.5px solid rgba(13,26,16,0.1);
+  border-radius: 8px; padding: 14px 16px; cursor: pointer;
+  transition: all 0.15s; display: flex; align-items: center; gap: 12px; text-align: left;
+}
+.option:hover { background: rgba(26,66,38,0.07); border-color: rgba(26,66,38,0.3); }
+.option.selected { background: rgba(26,66,38,0.1); border-color: rgba(26,66,38,0.45); }
+.option-icon { font-size: 1.2rem; flex-shrink: 0; width: 32px; text-align: center; }
+.option-title { font-size: 0.9rem; font-weight: 500; color: var(--text); display: block; margin-bottom: 2px; }
+.option-sub { font-size: 0.73rem; color: var(--text-dim); display: block; }
+.option-check {
+  margin-left: auto; flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+  border: 1.5px solid rgba(13,26,16,0.15); display: flex; align-items: center;
+  justify-content: center; font-size: 0.65rem; color: transparent; transition: all 0.15s;
+}
+.option.selected .option-check { background: var(--green); border-color: var(--green); color: #fff; }
+.modal-footer { padding: 16px 28px 24px; display: flex; gap: 10px; align-items: center; }
+.btn-next {
+  background: var(--green); color: #fff; padding: 14px 24px; border-radius: 4px;
+  border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 8px;
+  transition: background 0.2s, opacity 0.2s; flex: 1; justify-content: center;
+}
+.btn-next:hover:not(:disabled) { background: var(--green-mid); }
+.btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn-next::after { content: '→'; }
+.btn-back {
+  background: rgba(13,26,16,0.04); border: 1px solid var(--border); color: var(--text-mid);
+  padding: 14px 18px; border-radius: 4px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.86rem; transition: all 0.15s; display: none;
+}
+.btn-back.visible { display: block; }
+.btn-back:hover { background: rgba(13,26,16,0.08); color: var(--text); }
+.btn-back::before { content: '<-- '; }
+.result { display: none; padding: 28px; }
+.result.active { display: block; animation: fadeInQ 0.4s ease; }
+.result-header { text-align: center; margin-bottom: 28px; }
+.result-icon { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+.result-icon.great { background: rgba(26,66,38,0.1); border: 2px solid rgba(26,66,38,0.3); }
+.result-icon.good { background: rgba(26,66,38,0.08); border: 2px solid rgba(26,66,38,0.2); }
+.result-icon.explore { background: rgba(138,111,42,0.08); border: 2px solid rgba(138,111,42,0.2); }
+.result-badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+.result-badge.great { background: rgba(26,66,38,0.1); color: var(--green); border: 1px solid rgba(26,66,38,0.25); }
+.result-badge.good { background: rgba(26,66,38,0.08); color: var(--green); border: 1px solid rgba(26,66,38,0.2); }
+.result-badge.explore { background: rgba(138,111,42,0.08); color: var(--gold); border: 1px solid rgba(138,111,42,0.2); }
+.result-title { font-family: 'Instrument Serif', serif; font-size: clamp(1.4rem, 3.5vw, 1.9rem); color: var(--text); line-height: 1.15; margin-bottom: 10px; }
+.result-title em { font-style: italic; color: var(--green-br); }
+.result-text { font-size: 0.9rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; max-width: 480px; margin: 0 auto; }
+.result-summary { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 16px 0 22px; }
+.summary-tag { background: rgba(13,26,16,0.05); border: 1px solid rgba(13,26,16,0.1); border-radius: 20px; padding: 4px 12px; font-size: 0.7rem; color: var(--text-dim); }
+.summary-tag b { color: var(--text-mid); font-weight: 500; }
+.next-steps { background: rgba(26,66,38,0.05); border: 1px solid rgba(26,66,38,0.15); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+.next-steps h4 { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); font-weight: 600; margin-bottom: 12px; }
+.next-step-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.next-step-item:last-child { margin-bottom: 0; }
+.ns-num { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; background: rgba(26,66,38,0.1); display: flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 700; color: var(--green); margin-top: 1px; }
+.ns-text { font-size: 0.83rem; color: var(--text-mid); line-height: 1.45; }
+.ns-text b { color: var(--text); font-weight: 500; }
+.cal-embed-wrap { margin-top: 20px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.cal-embed-wrap iframe { width: 100%; height: 520px; border: none; display: block; }
+.result-fine { text-align: center; font-size: 0.68rem; color: var(--text-faint); margin-top: 12px; line-height: 1.5; }
+@media (max-width: 600px) {
+  .modal { border-radius: 16px 16px 0 0; }
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal-header { padding: 18px 20px 14px; }
+  .modal-body { padding: 20px; }
+  .modal-footer { padding: 12px 20px 20px; }
+  .result { padding: 20px; }
+  .options.grid-2 { grid-template-columns: 1fr; }
 }
 
 </style>
@@ -804,7 +932,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
 <!-- ══════════ NAV ══════════ -->
 <nav id="mainnav">
   <div class="nav-brand">KDI <span>·</span> Study-WG-Konzept</div>
-  <a href="#cta" class="nav-cta">Investment-Check →</a>
+  <a href="#" onclick="openModal();return false;" class="nav-cta">Investment-Check →</a>
 </nav>
 
 
@@ -841,7 +969,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
     </p>
     <div class="dual-cta center reveal reveal-delay-2">
       <div class="cta-primary-wrap">
-        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        <a href="#" onclick="openModal();return false;" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
         
       </div>
       <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
@@ -852,7 +980,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
     <div class="hb-item"><span class="hb-label">Hebel 01 · Mieter</span><span class="hb-val g">mind. 80–100 % mehr Mieteinnahmen</span></div>
     <div class="hb-item"><span class="hb-label">Hebel 02 · Staat</span><span class="hb-val gold">mind. 5 % AfA-Abschreibung p. a.</span></div>
     <div class="hb-item"><span class="hb-label">Hebel 03 · Jahr 1</span><span class="hb-val blue">100 % Renovierung sofort</span></div>
-    <div class="hb-cta"><a href="#cta">Investment-Check starten</a></div>
+    <div class="hb-cta"><a href="#" onclick="openModal();return false;">Investment-Check starten</a></div>
   </div>
 </section>
 
@@ -876,7 +1004,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
     <div class="vsl-below reveal reveal-delay-2">
       <div class="dual-cta center">
         <div class="cta-primary-wrap">
-          <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+          <a href="#" onclick="openModal();return false;" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
           
         </div>
         <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
@@ -932,7 +1060,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
   <div class="inner">
     <div class="dual-cta center reveal">
       <div class="cta-primary-wrap">
-        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        <a href="#" onclick="openModal();return false;" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
         
       </div>
       <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
@@ -990,7 +1118,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
   <div class="inner">
     <div class="dual-cta center reveal">
       <div class="cta-primary-wrap">
-        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        <a href="#" onclick="openModal();return false;" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
         
       </div>
       <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
@@ -1042,7 +1170,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
   <div class="inner">
     <div class="dual-cta center reveal">
       <div class="cta-primary-wrap">
-        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        <a href="#" onclick="openModal();return false;" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
         
       </div>
       <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
@@ -1099,7 +1227,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
   <div class="inner">
     <div class="dual-cta center reveal">
       <div class="cta-primary-wrap">
-        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        <a href="#" onclick="openModal();return false;" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
         
       </div>
       <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
@@ -1142,7 +1270,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
 
       <div class="dual-cta center reveal reveal-delay-3">
         <div class="cta-primary-wrap">
-          <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+          <a href="#" onclick="openModal();return false;" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
           
         </div>
         <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
@@ -1169,7 +1297,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
     </div>
     <div class="dual-cta center reveal">
       <div class="cta-primary-wrap">
-        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        <a href="#" onclick="openModal();return false;" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
         
       </div>
       <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
@@ -1191,7 +1319,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
         <div class="cta-step">Fertig in 2 Minuten</div>
       </div>
       <div class="cta-primary-wrap" style="width:100%;">
-        <a href="#" class="cta-primary" style="width:100%;justify-content:center;">Investment-Machbarkeitscheck starten →</a>
+        <a href="#" onclick="openModal();return false;" class="cta-primary" style="width:100%;justify-content:center;">Investment-Machbarkeitscheck starten →</a>
         
       </div>
       <a href="#" class="cta-secondary" style="width:100%;justify-content:center;margin-top:10px;">Kostenloses Erstgespräch buchen</a>
@@ -1210,23 +1338,177 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
 
 
 <script>
+// ── NAV SCROLL ──
 const nav = document.getElementById('mainnav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 });
 
+// ── SCROLL REVEAL ──
 const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
   });
 }, { threshold: 0.1 });
-reveals.forEach(el => observer.observe(el));
+reveals.forEach(el => revealObserver.observe(el));
 
+// ── FAQ ──
 function toggleFaq(el) {
   const item = el.parentElement;
   const isOpen = item.classList.contains('open');
   document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
   if (!isOpen) item.classList.add('open');
+}
+
+// ══════════════════════════════════════
+// QUIZ MODAL
+// ══════════════════════════════════════
+const ZAPIER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/24729049/u7wvyeg/';
+const totalQ = 7;
+const answers = {};
+let leadName = '';
+let zapierSent = false;
+
+function openModal() {
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  updateProgress(0);
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function updateProgress(step) {
+  const total = totalQ + 1; // +1 for name step
+  const pct = (step / total) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  if (step === 0) {
+    document.getElementById('progressText').textContent = 'Start';
+  } else if (step > totalQ) {
+    document.getElementById('progressText').textContent = 'Dein Ergebnis';
+  } else {
+    document.getElementById('progressText').textContent = step + ' / ' + totalQ;
+  }
+}
+
+// Name + DSGVO check
+function checkName() {
+  const name = document.getElementById('nameInput').value.trim();
+  const dsgvo = document.getElementById('dsgvoCheck').checked;
+  document.getElementById('next0').disabled = !(name.length >= 2 && dsgvo);
+}
+
+function selectOption(el, qId, value) {
+  el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[qId] = value;
+  const qNum = qId.replace('q', '');
+  const nextBtn = document.getElementById('next' + qNum);
+  if (nextBtn) nextBtn.disabled = false;
+  // Send partial data to Zapier after each answer
+  sendToZapier(false);
+}
+
+function nextQuestion(current) {
+  if (current === 0) {
+    leadName = document.getElementById('nameInput').value.trim();
+    answers['name'] = leadName;
+    sendToZapier(false);
+  }
+  const next = current + 1;
+  document.getElementById('q' + current).classList.remove('active');
+  if (next <= totalQ) {
+    document.getElementById('q' + next).classList.add('active');
+    updateProgress(next);
+    document.getElementById('modal').scrollTop = 0;
+  }
+}
+
+function prevQuestion(current) {
+  const prev = current - 1;
+  document.getElementById('q' + current).classList.remove('active');
+  document.getElementById('q' + prev).classList.add('active');
+  updateProgress(prev);
+  document.getElementById('modal').scrollTop = 0;
+}
+
+// ── ZAPIER ──
+function sendToZapier(completed) {
+  const payload = {
+    name: answers['name'] || leadName || '',
+    lebenssituation: answers['q1'] || '',
+    einkommen: answers['q2'] || '',
+    eigenkapital: answers['q3'] || '',
+    erfahrung: answers['q4'] || '',
+    ziel: answers['q5'] || '',
+    zeithorizont: answers['q6'] || '',
+    hindernis: answers['q7'] || '',
+    ergebnis: answers['result'] || '',
+    abgeschlossen: completed ? 'ja' : 'nein',
+    zeitstempel: new Date().toISOString(),
+    quelle: 'studywg-invest.de'
+  };
+  fetch(ZAPIER_WEBHOOK, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+}
+
+// ── ERGEBNIS ──
+function showResult() {
+  document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
+  updateProgress(totalQ + 1);
+
+  const income = answers['q2'];
+  const horizon = answers['q6'];
+  const situation = answers['q1'];
+
+  let resultType = 'good';
+  if ((income === '70-120' || income === 'ueber120') && (horizon === 'lang' || horizon === 'sehrlang')) {
+    resultType = 'great';
+  } else if (situation === 'paar' && (income === '40-70' || income === '70-120' || income === 'ueber120') && (horizon === 'lang' || horizon === 'sehrlang')) {
+    resultType = 'great';
+  } else if (horizon === 'kurz') {
+    resultType = 'explore';
+  } else if (income === 'unter40' && answers['q3'] === 'unter10') {
+    resultType = 'explore';
+  }
+
+  answers['result'] = resultType;
+  sendToZapier(true);
+
+  // Summary tags
+  const labelMap = {
+    q1: { single: 'Single', paar: 'Paar', unklar: 'Noch offen' },
+    q2: { 'unter40': 'Unter 40k €', '40-70': '40–70k €', '70-120': '70–120k €', 'ueber120': 'Über 120k €' },
+    q3: { 'unter10': 'EK < 10k', '10-30': 'EK 10–30k', '30-60': 'EK 30–60k', 'ueber60': 'EK > 60k' },
+    q5: { altersvorsorge: 'Altersvorsorge', vermoegen: 'Vermögensaufbau', steuer: 'Steuern sparen', passiv: 'Passives Einkommen' },
+    q6: { kurz: '< 5 Jahre', mittel: '5–10 Jahre', lang: '10–20 Jahre', sehrlang: '20+ Jahre' }
+  };
+
+  let tagsHtml = '';
+  if (answers['name']) tagsHtml += `<span class="summary-tag"><b>${answers['name']}</b></span>`;
+  ['q1','q2','q3','q5','q6'].forEach(k => {
+    const v = answers[k];
+    if (v && labelMap[k] && labelMap[k][v]) {
+      tagsHtml += `<span class="summary-tag"><b>${labelMap[k][v]}</b></span>`;
+    }
+  });
+
+  ['great','good','explore'].forEach(t => {
+    const el = document.getElementById('summary-' + t);
+    if (el) el.innerHTML = tagsHtml;
+  });
+
+  document.getElementById('result-' + resultType).classList.add('active');
+  document.getElementById('modal').scrollTop = 0;
 }
 </script>
