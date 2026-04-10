@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study-WG-Konzept Leipzig · Kulturdenkmal Invest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #f2ede3;
+  color: #0d1a10;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+:root {
+  --bg:        #f2ede3;
+  --bg-alt:    #ede8dc;
+  --green:     #1a4226;
+  --green-mid: #1e5c35;
+  --green-lt:  #e8f2ec;
+  --green-br:  #1e6038;
+  --gold:      #8a6f2a;
+  --gold-bg:   rgba(138,111,42,0.08);
+  --red:       #b03020;
+  --red-bg:    rgba(176,48,32,0.07);
+  --text:      #0d1a10;
+  --text-mid:  rgba(13,26,16,0.55);
+  --text-dim:  rgba(13,26,16,0.35);
+  --text-faint:rgba(13,26,16,0.18);
+  --border:    rgba(13,26,16,0.1);
+  --border-g:  rgba(26,66,38,0.25);
+  --shadow:    0 2px 20px rgba(13,26,16,0.07);
+  --shadow-lg: 0 8px 40px rgba(13,26,16,0.1);
+  --inner: 1100px;
+  --px: clamp(24px, 5vw, 80px);
+  --section-pad: clamp(80px, 10vw, 130px);
+}
+
+.inner { max-width: var(--inner); margin: 0 auto; padding: 0 var(--px); }
+.tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.67rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--green-br); font-weight: 600;
+}
+.tag::before, .tag::after { content: ''; width: 18px; height: 1px; background: rgba(26,66,38,0.3); }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+
+/* ── DUAL CTA BLOCK ── */
+.dual-cta {
+  display: flex; align-items: center; gap: 16px;
+  flex-wrap: wrap;
+}
+.dual-cta.center { justify-content: center; }
+.cta-primary-wrap { display: flex; flex-direction: column; gap: 4px; }
+.cta-primary {
+  background: var(--green); color: #fff;
+  padding: 14px 28px; border-radius: 3px;
+  font-size: 0.9rem; font-weight: 500; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  box-shadow: 0 4px 20px rgba(26,66,38,0.18);
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.cta-primary:hover { background: var(--green-mid); transform: translateY(-1px); }
+.cta-primary-note {
+  font-size: 0.72rem; color: var(--text-dim);
+  padding-left: 2px;
+}
+.cta-secondary {
+  background: #fff; color: var(--green);
+  padding: 14px 28px; border-radius: 3px;
+  font-size: 0.9rem; font-weight: 500; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1.5px solid var(--border-g);
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.cta-secondary:hover { background: var(--green-lt); border-color: var(--green-br); }
+
+/* CTA divider block between sections */
+.section-cta {
+  padding: 48px 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.section-cta.alt { background: var(--bg-alt); }
+
+
+/* ── VIDEO PLACEHOLDER ── */
+.video-placeholder {
+  width: 100%; aspect-ratio: 16/9;
+  background: #0d1a10;
+  border-radius: 10px; overflow: hidden;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  position: relative; cursor: pointer;
+  box-shadow: var(--shadow-lg);
+}
+.video-placeholder:hover .vp-play { transform: scale(1.08); }
+.vp-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 60% 40%, rgba(30,92,53,0.3) 0%, transparent 70%),
+    linear-gradient(135deg, #0d1a10 0%, #071208 100%);
+}
+.vp-play {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid rgba(255,255,255,0.25);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
+  transition: transform 0.2s, background 0.2s;
+}
+.vp-play::after {
+  content: '';
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 12px 0 12px 22px;
+  border-color: transparent transparent transparent rgba(255,255,255,0.85);
+  margin-left: 4px;
+}
+.vp-label {
+  position: relative; z-index: 1;
+  font-size: 0.75rem; color: rgba(255,255,255,0.3);
+  margin-top: 16px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 500;
+}
+.vp-duration {
+  position: absolute; bottom: 14px; right: 14px; z-index: 1;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.68rem; color: rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 3px;
+}
+
+/* VSL specific */
+.vsl-wrap {
+  max-width: 820px; margin: 0 auto;
+}
+.vsl-wrap .video-placeholder { border-radius: 12px; }
+.vsl-kicker {
+  text-align: center; margin-bottom: 20px;
+  font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-dim); font-weight: 600;
+}
+.vsl-caption {
+  text-align: center; margin-top: 16px;
+  font-size: 0.82rem; color: var(--text-dim); font-style: italic;
+}
+
+/* Testimonial video */
+.testi-video-wrap {
+  max-width: 600px; margin: 0 auto 40px;
+}
+
+
+/* ════════════════════
+   NAV
+════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px var(--px);
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+nav.scrolled {
+  background: rgba(242,237,227,0.96); backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 var(--border);
+}
+.nav-brand {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1rem; color: var(--text); letter-spacing: 0.02em;
+}
+.nav-brand span { color: var(--green-br); }
+.nav-cta {
+  background: var(--green); color: #fff;
+  padding: 9px 20px; border-radius: 3px;
+  font-size: 0.8rem; font-weight: 500; text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--green-mid); }
+
+
+/* ════════════════════
+   HERO
+════════════════════ */
+#hero {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  padding-top: 56px;
+  position: relative; overflow: hidden;
+}
+#hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.4;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(26,66,38,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, rgba(138,111,42,0.05) 0%, transparent 70%);
+}
+.ticker-bar {
+  background: rgba(13,26,16,0.04); border-bottom: 1px solid var(--border);
+  padding: 10px var(--px);
+  display: flex; gap: 32px; overflow-x: auto; scrollbar-width: none; white-space: nowrap;
+  position: relative; z-index: 1;
+}
+.ticker-bar::-webkit-scrollbar { display: none; }
+.tick-item { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.tick-key { font-family: 'Space Grotesk', monospace; font-size: 0.63rem; font-weight: 700; color: var(--text-faint); letter-spacing: 0.1em; }
+.tick-val { font-family: 'Space Grotesk', monospace; font-size: 0.63rem; color: var(--green-br); }
+.tick-sep { font-size: 0.6rem; color: var(--border); }
+
+.hero-main {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: clamp(60px,8vw,100px) var(--px) 40px;
+  position: relative; z-index: 1;
+}
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-dim); font-weight: 500; margin-bottom: 40px;
+}
+.hero-kicker::before, .hero-kicker::after { content: ''; width: 24px; height: 1px; background: var(--border); }
+.hero-h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2.8rem, 7vw, 6.5rem);
+  font-weight: 400; color: var(--text); line-height: 1.08; margin-bottom: 28px;
+}
+.hero-h1 .badge {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.72em; font-weight: 700; color: #fff;
+  background: var(--green);
+  padding: 4px 16px; border-radius: 4px;
+  display: inline-block; vertical-align: middle;
+}
+.hero-h1 em { font-style: italic; color: var(--green-br); }
+.hero-sub {
+  font-size: 1rem; color: var(--text-mid);
+  max-width: 520px; line-height: 1.7; font-weight: 300; margin-bottom: 44px;
+}
+.hero-sub b { color: var(--text); font-weight: 500; }
+
+.hero-bottom {
+  display: grid; grid-template-columns: 1fr 1fr 1fr auto;
+  border-top: 1px solid var(--border); background: #fff; position: relative; z-index: 1;
+}
+.hb-item { padding: 22px 30px; border-right: 1px solid var(--border); position: relative; }
+.hb-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.hb-item:nth-child(1)::before { background: linear-gradient(90deg, rgba(26,96,56,0.5), transparent); }
+.hb-item:nth-child(2)::before { background: linear-gradient(90deg, rgba(138,111,42,0.5), transparent); }
+.hb-item:nth-child(3)::before { background: linear-gradient(90deg, rgba(60,100,180,0.4), transparent); }
+.hb-label { font-size: 0.63rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); display: block; margin-bottom: 5px; }
+.hb-val { font-family: 'Instrument Serif', serif; font-size: 1.2rem; color: var(--text-mid); }
+.hb-val.g { color: var(--green-br); }
+.hb-val.gold { color: var(--gold); }
+.hb-val.blue { color: #4060a0; }
+.hb-cta {
+  padding: 22px 36px; display: flex; align-items: center;
+  background: var(--green-lt); border-left: 1px solid var(--border-g);
+}
+.hb-cta a {
+  font-size: 0.84rem; font-weight: 500; color: var(--green); text-decoration: none;
+  white-space: nowrap; display: flex; align-items: center; gap: 8px;
+}
+.hb-cta a::after { content: '→'; transition: transform 0.2s; }
+.hb-cta a:hover::after { transform: translateX(4px); }
+
+
+/* ════════════════════
+   VSL SECTION
+════════════════════ */
+#vsl {
+  padding: var(--section-pad) 0;
+  background: var(--green);
+  position: relative; overflow: hidden;
+}
+#vsl::before {
+  content: '';
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 800px; height: 600px; pointer-events: none;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 70%);
+}
+#vsl .inner { position: relative; z-index: 1; }
+.vsl-headline {
+  text-align: center; margin-bottom: 40px;
+}
+.vsl-headline .tag { color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+.vsl-headline .tag::before, .vsl-headline .tag::after { background: rgba(255,255,255,0.15); }
+.vsl-headline h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  color: #fff; font-weight: 400; line-height: 1.1; margin-bottom: 12px;
+}
+.vsl-headline h2 em { font-style: italic; color: rgba(180,240,190,0.8); }
+.vsl-headline p { font-size: 0.92rem; color: rgba(255,255,255,0.4); font-weight: 300; }
+.vsl-video-wrap {
+  max-width: 840px; margin: 0 auto;
+}
+.vsl-video-wrap .video-placeholder {
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+}
+.vsl-below {
+  margin-top: 36px; text-align: center;
+}
+.vsl-below .dual-cta { justify-content: center; }
+.vsl-below .cta-primary { background: #fff; color: var(--green); }
+.vsl-below .cta-primary:hover { background: #f5fef7; }
+.vsl-below .cta-secondary { background: transparent; border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); }
+.vsl-below .cta-secondary:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); color: #fff; }
+.vsl-below .cta-primary-note { color: rgba(255,255,255,0.3); }
+
+
+/* ════════════════════
+   VERGLEICH
+════════════════════ */
+#vergleich { padding: var(--section-pad) 0; background: var(--bg-alt); }
+#vergleich .inner { max-width: 1300px; }
+.compare-headline { text-align: center; margin-bottom: 48px; }
+.compare-headline .hl-tag {
+  display: block; font-size: 0.67rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--green-br); font-weight: 600; margin-bottom: 14px;
+}
+.compare-headline h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 400; line-height: 1.1; display: inline-block;
+}
+.compare-headline h2 .hl-line1 { display: block; color: var(--text); }
+.compare-headline h2 .hl-line2 {
+  display: inline-block; font-style: italic; color: #fff;
+  background: var(--green); padding: 2px 18px 6px; border-radius: 4px; margin-top: 4px;
+}
+.compare-headline .hl-sub { font-size: 0.92rem; color: var(--text-mid); font-weight: 300; margin-top: 16px; }
+.compare-wrap { display: flex; align-items: center; gap: 20px; }
+.compare-vs {
+  font-family: 'Instrument Serif', serif; font-size: 1rem;
+  color: var(--text-faint); font-style: italic; flex-shrink: 0;
+}
+.card-bad {
+  flex: 1; background: #fff; border: 1px solid rgba(176,48,32,0.18);
+  border-radius: 12px; padding: 32px 30px; box-shadow: var(--shadow);
+}
+.card-good {
+  flex: 1; background: var(--green); border: 1px solid rgba(26,66,38,0.4);
+  border-radius: 12px; padding: 32px 30px; box-shadow: var(--shadow-lg);
+}
+.card-label { font-size: 0.67rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; }
+.card-title { font-family: 'Instrument Serif', serif; font-size: 1.4rem; margin-bottom: 6px; }
+.card-subtitle { font-size: 0.78rem; margin-bottom: 20px; }
+.card-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(13,26,16,0.08);
+  font-size: 0.86rem;
+  gap: 16px;
+}
+.card-good .card-row { border-bottom-color: rgba(255,255,255,0.1); }
+.card-row:last-of-type { border-bottom: none; }
+.card-key-dark { color: var(--text-mid); }
+.card-key-light { color: rgba(255,255,255,0.5); }
+/* Values always right-aligned */
+.card-row span:last-child { text-align: right; white-space: nowrap; }
+.card-footer {
+  margin-top: 20px; padding: 14px 16px; border-radius: 6px;
+  font-size: 0.8rem; font-weight: 500; text-align: center; line-height: 1.4;
+}
+.disclaimer { text-align: center; font-size: 0.72rem; color: var(--text-faint); margin-top: 20px; }
+
+
+/* ════════════════════
+   DREI HEBEL
+════════════════════ */
+#hebel { padding: var(--section-pad) 0; background: var(--bg); }
+.hebel-intro { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+.hebel-intro h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--text); line-height: 1.1; margin-top: 16px; margin-bottom: 16px;
+}
+.hebel-intro h2 em { font-style: italic; color: var(--green-br); }
+.hebel-intro p { font-size: 0.95rem; color: var(--text-mid); font-weight: 300; line-height: 1.7; }
+.hebel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.hebel-card {
+  background: #fff; border: 1px solid var(--border); padding: 36px 30px;
+  position: relative; overflow: hidden; box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.hebel-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.hebel-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.hebel-card:nth-child(1)::before { background: linear-gradient(90deg, rgba(26,96,56,0.7), transparent); }
+.hebel-card:nth-child(2)::before { background: linear-gradient(90deg, rgba(138,111,42,0.7), transparent); }
+.hebel-card:nth-child(3)::before { background: linear-gradient(90deg, rgba(60,100,180,0.6), transparent); }
+.hebel-nr { font-family: 'Space Grotesk', monospace; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 20px; display: block; }
+.hebel-icon { font-size: 1.6rem; margin-bottom: 14px; display: block; }
+.hebel-card h3 { font-family: 'Instrument Serif', serif; font-size: 1.35rem; color: var(--text); margin-bottom: 12px; line-height: 1.2; }
+.hebel-card p { font-size: 0.84rem; color: var(--text-mid); line-height: 1.65; margin-bottom: 20px; }
+.hebel-result { font-size: 0.81rem; font-weight: 600; padding: 9px 13px; border-radius: 4px; display: inline-block; }
+.hebel-result.g { color: var(--green-br); background: rgba(26,96,56,0.07); }
+.hebel-result.gold { color: var(--gold); background: var(--gold-bg); }
+.hebel-result.blue { color: #3050a0; background: rgba(60,100,180,0.07); }
+.hebel-result-row {
+  margin-top: 40px; background: var(--green); border-radius: 8px; padding: 28px 36px;
+  display: flex; justify-content: space-between; align-items: center; gap: 24px;
+}
+.hrr-left h3 { font-family: 'Instrument Serif', serif; font-size: 1.3rem; color: #fff; margin-bottom: 6px; }
+.hrr-left p { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.hrr-right { text-align: right; flex-shrink: 0; }
+.hrr-right .big { font-family: 'Instrument Serif', serif; font-size: 2.2rem; color: rgba(180,240,190,0.9); display: block; line-height: 1; }
+.hrr-right .small { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin-top: 4px; display: block; }
+
+
+/* ════════════════════
+   LEIPZIG
+════════════════════ */
+#leipzig { padding: var(--section-pad) 0; background: var(--bg-alt); }
+.leipzig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.leipzig-left h2 { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 4vw, 3.2rem); color: var(--text); line-height: 1.1; margin-top: 16px; margin-bottom: 20px; }
+.leipzig-left h2 em { font-style: italic; color: var(--green-br); }
+.leipzig-left p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; margin-bottom: 24px; }
+.leipzig-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 32px; }
+.ls-item { background: #fff; border: 1px solid var(--border); padding: 20px 22px; box-shadow: var(--shadow); }
+.ls-item .ln { font-family: 'Instrument Serif', serif; font-size: 1.8rem; color: var(--green-br); display: block; line-height: 1; margin-bottom: 4px; }
+.ls-item .ll { font-size: 0.76rem; color: var(--text-dim); }
+.leipzig-right { display: flex; flex-direction: column; gap: 3px; }
+.l-point {
+  padding: 20px 22px; background: #fff; border: 1px solid var(--border); border-radius: 4px;
+  display: flex; gap: 14px; align-items: flex-start; box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+.l-point:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.l-point .lp-icon { width: 30px; height: 30px; flex-shrink: 0; background: var(--green-lt); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; margin-top: 1px; }
+.l-point h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.l-point p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.45; }
+
+
+/* ════════════════════
+   ABLAUF
+════════════════════ */
+#ablauf { padding: var(--section-pad) 0; background: var(--bg); }
+.ablauf-intro { text-align: center; max-width: 560px; margin: 0 auto 60px; }
+.ablauf-intro h2 { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--text); margin-top: 16px; margin-bottom: 14px; }
+.ablauf-intro p { font-size: 0.95rem; color: var(--text-mid); font-weight: 300; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+.steps::before {
+  content: ''; position: absolute; top: 22px; left: 12%; right: 12%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-g) 20%, var(--border-g) 80%, transparent);
+}
+.step { padding: 0 24px; text-align: center; position: relative; z-index: 1; }
+.step-num {
+  width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 1.5px solid var(--border-g);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+  font-family: 'Space Grotesk', monospace; font-size: 0.76rem; font-weight: 700; color: var(--green-br);
+  box-shadow: var(--shadow);
+}
+.step h4 { font-family: 'Instrument Serif', serif; font-size: 1.1rem; color: var(--text); margin-bottom: 10px; }
+.step p { font-size: 0.81rem; color: var(--text-mid); line-height: 1.55; }
+.step-time { margin-top: 12px; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--green-br); font-weight: 600; }
+
+
+/* ════════════════════
+   RECHENBEISPIEL
+════════════════════ */
+#rechnung { padding: var(--section-pad) 0; background: var(--bg-alt); }
+.rechnung-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+.rechnung-left h2 { font-family: 'Instrument Serif', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); color: var(--text); margin-top: 16px; margin-bottom: 16px; line-height: 1.1; }
+.rechnung-left h2 em { font-style: italic; color: var(--green-br); }
+.rechnung-left p { font-size: 0.92rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; margin-bottom: 20px; }
+.rechnung-table { background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); }
+.rt-head { background: var(--green); padding: 14px 20px; font-size: 0.63rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 600; }
+.rt-row { display: flex; justify-content: space-between; padding: 13px 20px; border-bottom: 1px solid var(--border); font-size: 0.87rem; gap: 12px; }
+.rt-row:last-child { border-bottom: none; }
+.rt-row .rk { color: var(--text-mid); }
+.rt-row .rv { font-weight: 500; color: var(--text); }
+.rt-row .rv.g { color: var(--green-br); }
+.rt-row .rv.neg { color: var(--text-mid); }
+.rt-footer { background: var(--green-lt); border-top: 1px solid var(--border-g); padding: 20px; text-align: center; }
+.rt-footer .big { font-family: 'Instrument Serif', serif; font-size: 1.8rem; color: var(--green-br); display: block; line-height: 1; }
+.rt-footer .sm { font-size: 0.7rem; color: var(--text-dim); margin-top: 6px; display: block; }
+.steuer-box { margin-top: 3px; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 22px; box-shadow: var(--shadow); }
+.steuer-box h4 { font-family: 'Instrument Serif', serif; font-size: 1.1rem; color: var(--text); margin-bottom: 16px; }
+.steuer-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.steuer-row:last-child { margin-bottom: 0; }
+.steuer-row .sr-label { font-size: 0.78rem; color: var(--text-mid); flex: 0 0 165px; }
+.steuer-bar-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 3px; }
+.steuer-bar { height: 100%; border-radius: 3px; }
+.steuer-row .sr-val { font-size: 0.78rem; font-weight: 600; flex: 0 0 48px; text-align: right; }
+
+
+/* ════════════════════
+   TESTIMONIAL
+════════════════════ */
+#testimonial { padding: var(--section-pad) 0; background: var(--bg); }
+.testi-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+.testi-inner .tag { margin-bottom: 36px; }
+.testi-quote {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  font-style: italic; color: var(--text);
+  line-height: 1.4; margin-bottom: 28px; position: relative;
+}
+.testi-quote::before {
+  content: '"'; font-size: 5rem; line-height: 1; color: rgba(26,66,38,0.1);
+  position: absolute; top: -24px; left: -16px; font-style: normal;
+}
+.testi-attr { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 40px; }
+.testi-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--green-lt); border: 1.5px solid var(--border-g);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: var(--green-br); font-weight: 600;
+}
+.testi-name { font-size: 0.88rem; font-weight: 600; color: var(--text); text-align: left; }
+.testi-role { font-size: 0.74rem; color: var(--text-dim); text-align: left; }
+
+/* Sven video placeholder – hell version */
+.testi-video-wrap { max-width: 640px; margin: 0 auto 44px; }
+.testi-video-wrap .video-placeholder {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.testi-video-wrap .vp-bg {
+  background:
+    radial-gradient(ellipse 70% 60% at 60% 40%, rgba(26,66,38,0.08) 0%, transparent 70%),
+    linear-gradient(135deg, #e8f2ec 0%, var(--bg-alt) 100%);
+}
+.testi-video-wrap .vp-play {
+  background: rgba(26,66,38,0.12); border-color: rgba(26,66,38,0.25);
+}
+.testi-video-wrap .vp-play::after { border-color: transparent transparent transparent rgba(26,66,38,0.7); }
+.testi-video-wrap .vp-label { color: var(--text-dim); }
+.testi-video-wrap .vp-duration { color: var(--text-dim); background: rgba(13,26,16,0.06); }
+
+.testi-mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-bottom: 44px; }
+.testi-mini { background: #fff; border: 1px solid var(--border); border-radius: 4px; padding: 20px; text-align: left; box-shadow: var(--shadow); }
+.testi-mini p { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 0.9rem; color: var(--text-mid); line-height: 1.5; margin-bottom: 10px; }
+.testi-mini cite { font-size: 0.7rem; color: var(--text-faint); font-style: normal; }
+
+
+/* ════════════════════
+   FAQ
+════════════════════ */
+#faq { padding: var(--section-pad) 0; background: var(--bg-alt); }
+.faq-intro { text-align: center; max-width: 500px; margin: 0 auto 52px; }
+.faq-intro h2 { font-family: 'Instrument Serif', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); color: var(--text); margin-top: 16px; }
+.faq-list { max-width: 720px; margin: 0 auto 52px; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-q {
+  padding: 20px 0; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.94rem; font-weight: 500; color: var(--text-mid);
+  gap: 16px; transition: color 0.2s; user-select: none;
+}
+.faq-q:hover { color: var(--text); }
+.faq-icon {
+  width: 22px; height: 22px; flex-shrink: 0;
+  border: 1px solid var(--border); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; color: var(--text-dim); transition: all 0.2s;
+}
+.faq-item.open .faq-icon { background: var(--green-lt); border-color: var(--border-g); color: var(--green-br); transform: rotate(45deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; }
+.faq-item.open .faq-a { max-height: 200px; padding-bottom: 20px; }
+.faq-a p { font-size: 0.87rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
+.faq-a p b { color: var(--text); font-weight: 500; }
+
+
+/* ════════════════════
+   FINAL CTA
+════════════════════ */
+#cta {
+  padding: var(--section-pad) 0;
+  background: var(--green); text-align: center; position: relative; overflow: hidden;
+}
+#cta::before {
+  content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 700px; height: 500px; pointer-events: none;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+#cta .inner { position: relative; z-index: 1; }
+#cta h2 { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 5vw, 4rem); color: #fff; line-height: 1.1; margin-top: 16px; margin-bottom: 20px; }
+#cta h2 em { font-style: italic; color: rgba(180,240,190,0.85); }
+#cta .tag { color: rgba(255,255,255,0.4); }
+#cta .tag::before, #cta .tag::after { background: rgba(255,255,255,0.2); }
+#cta p { font-size: 1rem; color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto 40px; font-weight: 300; line-height: 1.7; }
+.cta-box {
+  max-width: 460px; margin: 0 auto;
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px; padding: 36px;
+}
+.cta-steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; text-align: left; }
+.cta-step { display: flex; align-items: center; gap: 12px; font-size: 0.85rem; color: rgba(255,255,255,0.55); }
+.cta-step::before {
+  content: '✓'; flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); color: rgba(180,240,190,0.8);
+  display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700;
+}
+.cta-box .cta-primary { background: #fff; color: var(--green); width: 100%; justify-content: center; }
+.cta-box .cta-primary:hover { background: #f5fef7; }
+.cta-box .cta-secondary { background: transparent; border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); width: 100%; justify-content: center; margin-top: 8px; }
+.cta-box .cta-secondary:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.cta-box .cta-primary-note { color: rgba(255,255,255,0.3); text-align: center; }
+.cta-fine { margin-top: 16px; font-size: 0.7rem; color: rgba(255,255,255,0.2); text-align: center; }
+
+
+/* ════════════════════
+   FOOTER
+════════════════════ */
+footer {
+  padding: 36px var(--px); background: var(--bg-alt); border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+}
+footer .f-brand { font-family: 'Instrument Serif', serif; font-size: 0.95rem; color: var(--text-dim); }
+footer .f-links { display: flex; gap: 24px; }
+footer .f-links a { font-size: 0.78rem; color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
+footer .f-links a:hover { color: var(--text-mid); }
+footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text-align: center; line-height: 1.6; }
+
+
+/* ════════════════════════════════════════
+   MOBILE OPTIMIERT – ersetzt und ergänzt
+   alle bestehenden Breakpoints
+════════════════════════════════════════ */
+
+/* ── GRUNDLAGEN ── */
+@media (max-width: 768px) {
+  :root {
+    --section-pad: clamp(52px, 8vw, 80px);
+    --px: 20px;
+  }
+
+  /* NAV */
+  nav { padding: 14px 20px; }
+  .nav-brand { font-size: 0.88rem; }
+  .nav-cta { padding: 8px 16px; font-size: 0.78rem; }
+
+  /* TICKER */
+  .ticker-bar { padding: 9px 20px; gap: 24px; }
+  .tick-key { font-size: 0.58rem; }
+  .tick-val { font-size: 0.58rem; }
+
+  /* HERO */
+  .hero-main { padding: 48px 20px 32px; text-align: left; align-items: flex-start; }
+  .hero-kicker { font-size: 0.6rem; margin-bottom: 24px; }
+  .hero-kicker::before, .hero-kicker::after { width: 16px; }
+  .hero-h1 { font-size: clamp(2.2rem, 9vw, 3.2rem); margin-bottom: 20px; }
+  .hero-h1 .badge {
+    font-size: 0.55em; padding: 3px 10px;
+    display: block; width: fit-content; margin: 6px 0;
+  }
+  .hero-sub { font-size: 0.92rem; margin-bottom: 32px; max-width: 100%; }
+  .dual-cta { flex-direction: column; align-items: stretch; width: 100%; }
+  .dual-cta.center { align-items: stretch; }
+  .cta-primary { width: 100%; justify-content: center; padding: 16px 20px; font-size: 0.88rem; }
+  .cta-secondary { width: 100%; justify-content: center; padding: 16px 20px; font-size: 0.88rem; }
+
+  /* HERO BOTTOM BAR */
+  .hero-bottom { grid-template-columns: 1fr 1fr; }
+  .hb-item { padding: 16px 18px; }
+  .hb-item:nth-child(3) { border-right: none; }
+  .hb-label { font-size: 0.58rem; }
+  .hb-val { font-size: 1rem; }
+  .hb-cta { grid-column: span 2; border-left: none; border-top: 1px solid var(--border-g); justify-content: center; padding: 16px 20px; }
+
+  /* TAGS */
+  .tag { font-size: 0.62rem; }
+
+  /* VSL */
+  .vsl-headline h2 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  .vsl-headline p { font-size: 0.88rem; }
+  .vsl-below { margin-top: 24px; }
+
+  /* VERGLEICH */
+  .compare-headline h2 { font-size: clamp(1.7rem, 6vw, 2.4rem); }
+  .compare-headline .hl-sub { font-size: 0.86rem; }
+  .compare-wrap { flex-direction: column; gap: 8px; align-items: stretch; }
+  .compare-vs { transform: none; text-align: center; padding: 4px 0; font-size: 0.88rem; }
+  .card-bad, .card-good { width: 100%; padding: 22px 20px; border-radius: 10px; }
+  .card-title { font-size: 1.2rem; }
+  .card-row { font-size: 0.82rem; padding: 11px 0; gap: 10px; }
+  .card-row span:last-child { text-align: right; white-space: nowrap; }
+  .card-footer { font-size: 0.78rem; padding: 11px 14px; }
+
+  /* SECTION CTA */
+  .section-cta { padding: 32px 0; }
+
+  /* HEBEL */
+  .hebel-intro h2 { font-size: clamp(1.7rem, 6vw, 2.4rem); }
+  .hebel-intro p { font-size: 0.9rem; }
+  .hebel-grid { grid-template-columns: 1fr; gap: 3px; }
+  .hebel-card { padding: 28px 22px; }
+  .hebel-card h3 { font-size: 1.2rem; }
+  .hebel-card p { font-size: 0.82rem; }
+  .hebel-result-row { flex-direction: column; padding: 24px 22px; gap: 16px; text-align: center; border-radius: 8px; }
+  .hrr-left h3 { font-size: 1.15rem; }
+  .hrr-left p { font-size: 0.8rem; }
+  .hrr-right { text-align: center; }
+  .hrr-right .big { font-size: 2rem; }
+
+  /* LEIPZIG */
+  .leipzig-grid { grid-template-columns: 1fr; gap: 36px; }
+  .leipzig-left h2 { font-size: clamp(1.7rem, 6vw, 2.4rem); }
+  .leipzig-left p { font-size: 0.9rem; }
+  .leipzig-stats { grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 24px; }
+  .ls-item { padding: 16px 18px; }
+  .ls-item .ln { font-size: 1.5rem; }
+  .ls-item .ll { font-size: 0.72rem; }
+  .l-point { padding: 16px 18px; }
+  .l-point h4 { font-size: 0.88rem; }
+  .l-point p { font-size: 0.78rem; }
+
+  /* ABLAUF */
+  .ablauf-intro h2 { font-size: clamp(1.7rem, 6vw, 2.4rem); }
+  .ablauf-intro p { font-size: 0.9rem; }
+  .steps { grid-template-columns: 1fr; gap: 0; }
+  .steps::before { display: none; }
+  .step {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    column-gap: 16px;
+    text-align: left;
+    align-items: start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num { margin: 0; width: 36px; height: 36px; font-size: 0.7rem; }
+  .step h4 { font-size: 0.95rem; margin-bottom: 6px; }
+  .step p { font-size: 0.8rem; }
+  .step-time { margin-top: 6px; font-size: 0.65rem; }
+
+  /* RECHENBEISPIEL */
+  .rechnung-grid { grid-template-columns: 1fr; gap: 24px; }
+  .rechnung-left h2 { font-size: clamp(1.7rem, 6vw, 2.4rem); }
+  .rechnung-left p { font-size: 0.88rem; }
+  .rt-row { font-size: 0.82rem; padding: 11px 16px; flex-wrap: wrap; gap: 3px; }
+  .rt-row .rk { flex: 0 0 100%; font-size: 0.75rem; opacity: 0.7; }
+  .rt-row .rv { font-size: 0.9rem; }
+  .rt-footer .big { font-size: 1.5rem; }
+  .steuer-row { flex-wrap: wrap; gap: 6px; }
+  .steuer-row .sr-label { flex: 0 0 100%; font-size: 0.76rem; }
+  .steuer-bar-wrap { flex: 1; }
+  .steuer-row .sr-val { flex: 0 0 auto; }
+  .steuer-box { padding: 18px; }
+  .steuer-box h4 { font-size: 1rem; }
+
+  /* TESTIMONIAL */
+  .testi-quote { font-size: clamp(1.2rem, 5vw, 1.6rem); padding-left: 16px; }
+  .testi-quote::before { font-size: 3.5rem; top: -16px; left: -8px; }
+  .testi-attr { justify-content: flex-start; gap: 10px; }
+  .testi-mini-grid { grid-template-columns: 1fr; gap: 3px; }
+  .testi-mini { padding: 16px 18px; }
+
+  /* FAQ */
+  .faq-intro h2 { font-size: clamp(1.7rem, 6vw, 2.4rem); }
+  .faq-q { font-size: 0.88rem; padding: 18px 0; min-height: 54px; }
+  .faq-a p { font-size: 0.84rem; }
+  .faq-icon { width: 26px; height: 26px; font-size: 0.9rem; flex-shrink: 0; }
+  .faq-list { margin-bottom: 36px; }
+
+  /* FINAL CTA */
+  #cta h2 { font-size: clamp(1.8rem, 6vw, 2.8rem); }
+  #cta p { font-size: 0.92rem; }
+  .cta-box { padding: 28px 22px; border-radius: 8px; }
+  .cta-step { font-size: 0.82rem; }
+  .cta-fine { font-size: 0.68rem; }
+
+  /* FOOTER */
+  footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; gap: 12px; }
+  footer .f-brand { font-size: 0.88rem; }
+  footer .f-links { gap: 16px; }
+  footer .f-links a { font-size: 0.75rem; }
+  footer .f-disc { font-size: 0.65rem; text-align: left; }
+}
+
+/* ── SEHR KLEINE SCREENS ── */
+@media (max-width: 380px) {
+  .hero-h1 { font-size: 2rem; }
+  .hero-h1 .badge { font-size: 0.5em; }
+  .leipzig-stats { grid-template-columns: 1fr 1fr; }
+  .card-row span:first-child { flex: 0 0 100%; }
+  .rt-row .rk { flex: 0 0 100%; }
+}
+
+</style>
+
+
+<!-- ══════════ NAV ══════════ -->
+<nav id="mainnav">
+  <div class="nav-brand">KDI <span>·</span> Study-WG-Konzept</div>
+  <a href="#cta" class="nav-cta">Investment-Check →</a>
+</nav>
+
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="ticker-bar">
+    <div class="tick-item"><span class="tick-key">MIETRENDITE</span><span class="tick-val">~6,3 % p.a.</span></div>
+    <span class="tick-sep">|</span>
+    <div class="tick-item"><span class="tick-key">ABSCHREIBUNG</span><span class="tick-val">~5,0 % p.a.</span></div>
+    <span class="tick-sep">|</span>
+    <div class="tick-item"><span class="tick-key">STANDORT</span><span class="tick-val">Leipzig ↑</span></div>
+    <span class="tick-sep">|</span>
+    <div class="tick-item"><span class="tick-key">MONATL. ÜBERSCHUSS</span><span class="tick-val">+ 112 € (Beispiel)</span></div>
+    <span class="tick-sep">|</span>
+    <div class="tick-item"><span class="tick-key">STUDIERENDE LEIPZIG</span><span class="tick-val">41.000+</span></div>
+    <span class="tick-sep">|</span>
+    <div class="tick-item"><span class="tick-key">ZIMMER IN VERWALTUNG</span><span class="tick-val">700+</span></div>
+    <span class="tick-sep">|</span>
+    <div class="tick-item"><span class="tick-key">ERFAHRUNG</span><span class="tick-val">18 Jahre</span></div>
+  </div>
+
+  <div class="hero-main">
+    <div class="hero-kicker">Study-WG-Konzept · Leipzig · Kulturdenkmal Invest</div>
+    <h1 class="hero-h1 reveal">
+      Ein Konzept,<br>
+      <span style="font-size:0.6em;">bei dem</span>
+      <span class="badge">MIETER&nbsp;+&nbsp;STAAT</span><br>
+      <em>dein Investment komplett finanzieren.</em>
+    </h1>
+    <p class="hero-sub reveal reveal-delay-1">
+      Ein professionell gemanagtes Immobilien-Investment in Leipzig –
+      das sich durch Ausnutzung staatlicher Förderungen und cleverer Optimierung der Mieteinnahmen <b>von selbst trägt</b>
+      und dabei monatlich noch Vorsorgekapital aufbaut.
+    </p>
+    <div class="dual-cta center reveal reveal-delay-2">
+      <div class="cta-primary-wrap">
+        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        
+      </div>
+      <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hb-item"><span class="hb-label">Hebel 01 · Mieter</span><span class="hb-val g">mind. 80–100 % mehr Mieteinnahmen</span></div>
+    <div class="hb-item"><span class="hb-label">Hebel 02 · Staat</span><span class="hb-val gold">mind. 5 % AfA-Abschreibung p. a.</span></div>
+    <div class="hb-item"><span class="hb-label">Hebel 03 · Jahr 1</span><span class="hb-val blue">100 % Renovierung sofort</span></div>
+    <div class="hb-cta"><a href="#cta">Investment-Check starten</a></div>
+  </div>
+</section>
+
+
+<!-- ══════════ VSL ══════════ -->
+<section id="vsl">
+  <div class="inner">
+    <div class="vsl-headline reveal">
+      <div class="tag">Das Konzept in 3 Minuten</div>
+      <h2>Sieh selbst, wie das<br><em>Study-WG-Konzept funktioniert.</em></h2>
+      <p>Alles Wichtige – kompakt erklärt, bevor du einen Termin buchst.</p>
+    </div>
+    <div class="vsl-video-wrap reveal reveal-delay-1">
+      <div class="video-placeholder" style="aspect-ratio:16/9;">
+        <div class="vp-bg"></div>
+        <div class="vp-play"></div>
+        <span class="vp-label">Video wird hier eingefügt</span>
+        <span class="vp-duration">ca. 3:00 min</span>
+      </div>
+    </div>
+    <div class="vsl-below reveal reveal-delay-2">
+      <div class="dual-cta center">
+        <div class="cta-primary-wrap">
+          <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+          
+        </div>
+        <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ VERGLEICH ══════════ -->
+<section id="vergleich">
+  <div class="inner">
+    <div class="compare-headline reveal">
+      <div class="hl-tag">Der entscheidende große Unterschied</div>
+      <h2>
+        <span class="hl-line1">Wer baut bei dir</span>
+        <span class="hl-line2">dein Vermögen auf?</span>
+      </h2>
+      <p class="hl-sub">Mit der richtigen Struktur trägst nicht du die Last – sondern Mieter und Vater Staat.</p>
+    </div>
+
+    <div class="compare-wrap reveal reveal-delay-1">
+      <div class="card-bad">
+        <div class="card-label" style="color:var(--red);">✕ &nbsp;Bisherige bzw. alternative Investments</div>
+        <div class="card-title" style="color:var(--text);">Du trägst alles allein.</div>
+        <div class="card-subtitle" style="color:var(--text-dim);">Jeden Monat. Aus eigener Tasche.</div>
+        <div class="card-row"><span class="card-key-dark">Wer baut dein Vermögen auf?</span><span style="color:var(--red);font-weight:500;">Nur du</span></div>
+        <div class="card-row"><span class="card-key-dark">Steuerliche Entlastung</span><span style="color:var(--red);font-weight:500;">Keine</span></div>
+        <div class="card-row"><span class="card-key-dark">Monatlicher Eigenaufwand</span><span style="color:var(--red);font-weight:500;">100 % selbst</span></div>
+        <div class="card-row"><span class="card-key-dark">Verwaltungsaufwand</span><span style="color:var(--text-mid);font-weight:500;">Du musst dich kümmern</span></div>
+        <div class="card-row"><span class="card-key-dark">In 10 Jahren</span><span style="color:var(--red);font-weight:500;">Eventuelle Gewinne müssen versteuert werden</span></div>
+        <div class="card-footer" style="background:var(--red-bg);color:var(--red);">Du musst dein Eigenkapital verwenden und später darauf Steuern zahlen.</div>
+      </div>
+      <div class="compare-vs">vs.</div>
+      <div class="card-good">
+        <div class="card-label" style="color:rgba(180,240,190,0.85);">✓ &nbsp;Study-WG-Konzept Leipzig</div>
+        <div class="card-title" style="color:#fff;">Mieter + Staat bauen für dich.</div>
+        <div class="card-subtitle" style="color:rgba(255,255,255,0.4);">Bank finanziert · du bringst geringes Eigenkapital.</div>
+        <div class="card-row"><span class="card-key-light">Wer finanziert dein Studi-WG-Konzept?</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Mieter + staatliche Förderungen</span></div>
+        <div class="card-row"><span class="card-key-light">Steuerliche Entlastung</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Steuerlast wird in privates Vermögen umgewandelt</span></div>
+        <div class="card-row"><span class="card-key-light">Monatlicher Eigenaufwand</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Neutral – bzw. monatlicher Vermögenszuwachs</span></div>
+        <div class="card-row"><span class="card-key-light">Verwaltungsaufwand</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Komplett gemanagt</span></div>
+        <div class="card-row"><span class="card-key-light">In 10 Jahren</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Wertentwicklung Leipziger Immobilienmarkt – Nr. 1 in Deutschland, komplett steuerfreier Gewinn</span></div>
+        <div class="card-footer" style="background:rgba(255,255,255,0.08);color:rgba(180,240,190,0.8);">Ohne eigenen Aufwand wird dein Vermögen aufgebaut.</div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<!-- CTA nach Vergleich -->
+<div class="section-cta alt">
+  <div class="inner">
+    <div class="dual-cta center reveal">
+      <div class="cta-primary-wrap">
+        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        
+      </div>
+      <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ DREI HEBEL ══════════ -->
+<section id="hebel">
+  <div class="inner">
+    <div class="hebel-intro reveal">
+      <div class="tag">Das Konzept</div>
+      <h2>Das clevere Zusammenspiel<br><em>der drei Hebel</em></h2>
+      <p>Jede dieser Optimierungen wirkt allein. Zusammen entsteht ein Investment, das sich von selbst trägt – und dabei jeden Monat Vermögen aufbaut.</p>
+    </div>
+    <div class="hebel-grid">
+      <div class="hebel-card reveal">
+        <span class="hebel-nr">Hebel 01 · Mieteinnahmen</span>
+        <span class="hebel-icon">🏠</span>
+        <h3>WG-Einzelzimmervermietung an Studierende</h3>
+        <p>Statt die Wohnung als Ganzes zu vermieten, wird sie in einzelne Zimmer mit separaten Mietverträgen aufgeteilt. Eine Spezialagentur übernimmt Vermietung und Verwaltung – mit langen Wartelisten.</p>
+        <span class="hebel-result g">→ 80–100 % mehr Mieteinnahmen als bei klassischer Vermietung</span>
+      </div>
+      <div class="hebel-card reveal reveal-delay-1">
+        <span class="hebel-nr">Hebel 02 · Staatliche Förderung</span>
+        <span class="hebel-icon">📋</span>
+        <h3>Erhöhte steuerliche Abschreibung</h3>
+        <p>Ein Gutachten reduziert die Restnutzungsdauer der Immobilie. Vom Gesetzgeber vorgesehen, also legal. Das verdoppelt mindestens die jährliche AfA-Abschreibung auf mindestens 5 %. Das Gutachten wird vom Initiator übernommen.</p>
+        <span class="hebel-result gold">→ mind. 5 % AfA-Abschreibung p. a. statt 2,5 %</span>
+      </div>
+      <div class="hebel-card reveal reveal-delay-2">
+        <span class="hebel-nr">Hebel 03 · Sofortreduzierung der Steuerlast</span>
+        <span class="hebel-icon">⚡</span>
+        <h3>100 % Renovierungskosten im Kaufjahr</h3>
+        <p>Bei allen Studi-WGs wird die Zimmeranzahl der Wohnungen für das Konzept optimiert (z. B. aus 2 werden 3 Zimmer) und auf Erstbezugsniveau renoviert. Alle Gemeinschaftsflächen werden möbliert (z. B. Küche). Die Renovierungskosten (8–10 % vom Kaufpreis) werden separat vom Kaufpreis ausgewiesen und sind im Kaufjahr vollständig steuerlich absetzbar.</p>
+        <span class="hebel-result blue">→ Direkte Steuerentlastung im ersten Jahr</span>
+      </div>
+    </div>
+    <div class="hebel-result-row reveal">
+      <div class="hrr-left">
+        <h3>Zusammen: Ist das Investment selbsttragend?</h3>
+        <p>Die Mieter zahlen die Mieteinnahmen + Staat ermöglicht erhebliche Steuerersparnisse. Ergebnis: Kein monatlicher Eigenaufwand. Somit wächst monatlich dein Vermögen durch die bereits mitbezahlte Tilgung. Dazu kommt noch die natürliche Wertsteigerung des Leipziger Immobilienmarktes.</p>
+      </div>
+      <div class="hrr-right">
+        <span class="big">+ 112 €</span>
+        <span class="small">monatl. Überschuss · Beispielwert</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA nach Hebel -->
+<div class="section-cta">
+  <div class="inner">
+    <div class="dual-cta center reveal">
+      <div class="cta-primary-wrap">
+        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        
+      </div>
+      <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ RECHENBEISPIEL ══════════ -->
+<section id="rechnung">
+  <div class="inner">
+    <div class="rechnung-grid">
+      <div class="rechnung-left reveal">
+        <div class="tag">Rechenbeispiel</div>
+        <h2>Hier ein echtes<br><em>Zahlenbeispiel.</em></h2>
+        <p>Die meisten Vergleiche zeigen das Investment ohne steuerliche Wirkung. Dann sieht es nach Zuzahlung aus. Die Realität mit allen drei Hebeln sieht anders aus.</p>
+        <p style="font-size:0.78rem;color:var(--text-faint);">Alle Werte sind Beispielrechnungen. Individuelle Zahlen hängen von Einkommen, Zinsniveau und Steuersatz ab.</p>
+        <div class="steuer-box" style="margin-top:24px;">
+          <h4>Wer trägt was?</h4>
+          <div class="steuer-row"><span class="sr-label">Mieter (Mieteinnahmen)</span><div class="steuer-bar-wrap"><div class="steuer-bar" style="width:72%;background:rgba(26,96,56,0.5);"></div></div><span class="sr-val" style="color:var(--green-br);">~72 %</span></div>
+          <div class="steuer-row"><span class="sr-label">Staat (Steuerersparnis)</span><div class="steuer-bar-wrap"><div class="steuer-bar" style="width:28%;background:rgba(138,111,42,0.5);"></div></div><span class="sr-val" style="color:var(--gold);">~28 %</span></div>
+          
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="rechnung-table">
+          <div class="rt-head">Musterinvestment · Monatliche Betrachtung</div>
+          <div class="rt-row"><span class="rk">Kaufpreis inkl. Nebenkosten</span><span class="rv">~185.000 €</span></div>
+          <div class="rt-row"><span class="rk">Mieteinnahme (3 Zimmer)</span><span class="rv g">+ 960 €</span></div>
+          <div class="rt-row"><span class="rk">Kosten & Verwaltung</span><span class="rv neg">– 240 €</span></div>
+          <div class="rt-row"><span class="rk">Bankrate (~4,5 %)</span><span class="rv neg">– 608 €</span></div>
+          <div class="rt-row"><span class="rk">Steuerersparnis (zu verst. Eink. 37.000 €)</span><span class="rv g">wirkt monatlich</span></div>
+          
+          <div class="rt-footer"><span class="big">+ 112 € Überschuss</span><span class="sm">monatl. nach allen Optimierungen · Beispielwert</span></div>
+        </div>
+        <div class="rechnung-table" style="margin-top:3px;">
+          <div class="rt-head">Steuerliche Hebel · Einmaleffekte</div>
+          <div class="rt-row"><span class="rk">Abschreibung p. a. (~5 %)</span><span class="rv g">~10.750 € / Jahr</span></div>
+          <div class="rt-row"><span class="rk">Renovierung sofort absetzbar</span><span class="rv g">~15.000 € in Jahr 1</span></div>
+          <div class="rt-row"><span class="rk">Steuerersparnis (ca. 40 %)</span><span class="rv g">erheblich im Jahr 1</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA nach Rechenbeispiel -->
+<div class="section-cta">
+  <div class="inner">
+    <div class="dual-cta center reveal">
+      <div class="cta-primary-wrap">
+        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        
+      </div>
+      <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ LEIPZIG ══════════ -->
+<section id="leipzig">
+  <div class="inner">
+    <div class="leipzig-grid">
+      <div class="leipzig-left reveal">
+        <div class="tag">Standort</div>
+        <h2>Warum also ausgerechnet <em>Leipzig?</em></h2>
+        <p>Leipzig ist nicht zufällig gewählt. Die Kombination aus struktureller Nachfrage, Kaufpreisniveau und den Wertsteigerungsprognosen der Banken macht die Stadt zu einem der attraktivsten Investitionsstandorte in Deutschland – gerade für Studierendenwohnungen.</p>
+        <div class="leipzig-stats">
+          <div class="ls-item"><span class="ln">41.000+</span><span class="ll">Studierende in Leipzig</span></div>
+          <div class="ls-item"><span class="ln">Platz 1</span><span class="ll">Wachstumsstandort bis 2035</span></div>
+          <div class="ls-item"><span class="ln">700+</span><span class="ll">Zimmer in unserer Verwaltung</span></div>
+          <div class="ls-item"><span class="ln">18 J.</span><span class="ll">Erfahrung vor Ort</span></div>
+        </div>
+      </div>
+      <div class="leipzig-right reveal reveal-delay-1">
+        <div class="l-point"><div class="lp-icon">📍</div><div><h4>Strukturelle Nachfrage</h4><p>41.000+ Studierende, zu wenig bezahlbarer Wohnraum. WG-Zimmer sind dauerhaft gefragt – Wartelisten statt Leerstandsrisiko.</p></div></div>
+        <div class="l-point"><div class="lp-icon">📈</div><div><h4>Kaufpreisniveau mit Potenzial</h4><p>Leipzig. Nachgefragtester und wachstumsstärkster Standort Deutschlands. Chance: Einstiegspreise im Vergleich noch moderat. → Stärkstes Wachstum aller Städte bis 2035.</p></div></div>
+        <div class="l-point"><div class="lp-icon">🏛️</div><div><h4>Sachwert schlägt Inflation</h4><p>Immobilien allgemein schützen vor Inflation (Kaufkraftverlust des Geldes). → Lage, Lage, Lage: Die am nachgefragtesten Standorte haben eine Wertentwicklung über die Inflation hinaus.</p></div></div>
+        <div class="l-point"><div class="lp-icon">🔑</div><div><h4>Großer Vorteil nach 10 Jahren</h4><p>Wer seine Immobilie nach der Haltedauer verkauft, zahlt keine Steuern auf die Wertsteigerung / Gewinne. Das macht den Verkauf zusätzlich attraktiv.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ ABLAUF ══════════ -->
+<section id="ablauf">
+  <div class="inner">
+    <div class="ablauf-intro reveal">
+      <div class="tag">Der Weg</div>
+      <h2>So einfach ist der Einstieg</h2>
+      <p>Von der ersten Anfrage bis zum laufenden Investment – begleitet, strukturiert, ohne Überraschungen.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="step-num">01</div><h4>Machbarkeitscheck</h4><p>Kurze Ersteinschätzung, ob und wie das Konzept zu deiner persönlichen Situation passt.</p><div class="step-time">~ 2 Minuten</div></div>
+      <div class="step reveal reveal-delay-1"><div class="step-num">02</div><h4>Analysegespräch</h4><p>Du erfährst mit konkreten Zahlen, wie sich dieses Investment für dein Profil rechnet – mit ehrlicher Einschätzung, ohne Verkaufsdruck.</p><div class="step-time">~ 45 Minuten</div></div>
+      <div class="step reveal reveal-delay-2"><div class="step-num">03</div><h4>Objektauswahl & Finanzierung</h4><p>Wir schlagen ein passendes Objekt vor und begleiten den Finanzierungsprozess inklusive Beantragung aller Fördermöglichkeiten.</p><div class="step-time">Begleitet</div></div>
+      <div class="step reveal reveal-delay-3"><div class="step-num">04</div><h4>Übergabe & Betrieb</h4><p>Nach Renovierung übernimmt eine Spezialagentur alles. Du bekommst regelmäßige Berichte. Das war's.</p><div class="step-time">Vollverwaltet</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA nach Ablauf -->
+<div class="section-cta alt">
+  <div class="inner">
+    <div class="dual-cta center reveal">
+      <div class="cta-primary-wrap">
+        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        
+      </div>
+      <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ TESTIMONIAL ══════════ -->
+<section id="testimonial">
+  <div class="inner">
+    <div class="testi-inner reveal">
+      <div class="tag">Stimmen</div>
+      <div class="testi-quote">
+        Ich hab mich lange nicht als jemanden gesehen, der in Immobilien investieren kann. Dann hab ich verstanden, wie dieses Konzept funktioniert. Seitdem läuft es im Grunde von allein, ohne dass ich irgendwas tun muss.
+      </div>
+      <div class="testi-attr">
+        <div class="testi-avatar">S</div>
+        <div>
+          <div class="testi-name">Sven M.</div>
+          <div class="testi-role">Projektmanager · 36 · Leipzig-Investor seit 2024</div>
+        </div>
+      </div>
+
+      <!-- Sven Video Placeholder -->
+      <div class="testi-video-wrap reveal reveal-delay-1">
+        <div class="video-placeholder">
+          <div class="vp-bg"></div>
+          <div class="vp-play"></div>
+          <span class="vp-label">Videotestimonial Sven M.</span>
+          <span class="vp-duration">ca. 1:30 min</span>
+        </div>
+      </div>
+
+      <div class="testi-mini-grid reveal reveal-delay-2">
+        <div class="testi-mini"><p>„Ich mache ehrlich gesagt nichts. Das Team kümmert sich um alles."</p><cite>Sven M. · über den laufenden Betrieb</cite></div>
+        <div class="testi-mini"><p>„Irgendwann anfangen – das war mein Plan seit Jahren. Irgendwann war dann jetzt."</p><cite>Sven M. · über den Einstieg</cite></div>
+        <div class="testi-mini"><p>„Genau deswegen war es das Richtige. Weil es zu meinem Leben passt."</p><cite>Sven M. · über die Entscheidung</cite></div>
+      </div>
+
+      <div class="dual-cta center reveal reveal-delay-3">
+        <div class="cta-primary-wrap">
+          <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+          
+        </div>
+        <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ FAQ ══════════ -->
+<section id="faq">
+  <div class="inner">
+    <div class="faq-intro reveal">
+      <div class="tag">FAQ</div>
+      <h2>Häufige Fragen</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Muss ich das Eigenkapital komplett selbst aufbringen?<span class="faq-icon">+</span></div><div class="faq-a"><p>Nein. Das Konzept ist auf Bankfinanzierung ausgelegt. Du bringst ein geringes Eigenkapital ein – die Bank finanziert den Großteil. Die monatliche Bankrate ist durch Mieteinnahmen und steuerliche Entlastung vollständig gedeckt.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Was passiert, wenn kein Mieter gefunden wird?<span class="faq-icon">+</span></div><div class="faq-a"><p>Leipzig hat 41.000+ Studierende bei strukturell zu wenig Wohnraum. Unsere Spezialagentur arbeitet mit Wartelisten – nicht mit Leerstand. Zusätzlich verteilt die Einzelzimmervermietung das Risiko: Fällt ein Zimmer temporär aus, laufen die anderen weiter.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Wie viel Aufwand habe ich als Eigentümer?<span class="faq-icon">+</span></div><div class="faq-a"><p>Nahezu keinen. Verwaltung, Vermietung inklusive Mietverträge, Abrechnung und Instandhaltungskoordination laufen über die Spezialagentur. Du erhältst regelmäßige Berichte und behältst den Überblick – ohne selbst aktiv zu werden.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Ist das steuerlich wirklich so einfach?<span class="faq-icon">+</span></div><div class="faq-a"><p>Die drei steuerlichen Mechanismen – erhöhte AfA-Abschreibung durch Gutachten, Sofortabzug der Renovierungskosten und steuerlicher Abzug der Zinsen – sind Fördergesetze, also völlig legal. Für die individuelle Wirkung gibt es ein besonderes Berechnungsprogramm.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Für wen ist das Study-WG-Konzept geeignet?<span class="faq-icon">+</span></div><div class="faq-a"><p>Das Konzept eignet/rechnet sich für Menschen bereits ab mittleren Einkommen (Single ab 40.000 € brutto, als Ehepaar ab ca. 80.000 € brutto), welche mittelfristig Vermögen aufbauen wollen, ohne Fachwissen mitbringen zu müssen.</p></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Was passiert nach 10 Jahren?<span class="faq-icon">+</span></div><div class="faq-a"><p>Die Wohnung kann jederzeit wieder verkauft werden, allerdings nach einer Haltedauer von 10 Jahren sogar komplett steuerfrei. Du realisierst dann also die angesammelte Wertsteigerung plus das durch Tilgung aufgebaute Eigenkapital – ohne jegliche Steuerbelastung auf deine Gewinne.</p></div></div>
+    </div>
+    <div class="dual-cta center reveal">
+      <div class="cta-primary-wrap">
+        <a href="#cta" class="cta-primary">Investment-Machbarkeitscheck starten →</a>
+        
+      </div>
+      <a href="#cta" class="cta-secondary">Kostenloses Erstgespräch buchen</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ FINAL CTA ══════════ -->
+<section id="cta">
+  <div class="inner">
+    <div class="tag reveal">Jetzt starten</div>
+    <h2 class="reveal reveal-delay-1">Prüfe, ob das<br><em>zu dir passt.</em></h2>
+    <p class="reveal reveal-delay-2">Kein Verkaufsdruck. Keine Verpflichtung. Ein ehrliches Gespräch darüber, ob sich das Studi-WG-Konzept grundsätzlich für dich eignet / für dich passt.</p>
+    <div class="cta-box reveal reveal-delay-3">
+      <div class="cta-steps">
+        <div class="cta-step">Kostenlos & unverbindlich</div>
+        <div class="cta-step">Konkrete Zahlen für dein Profil</div>
+        <div class="cta-step">Fertig in 2 Minuten</div>
+      </div>
+      <div class="cta-primary-wrap" style="width:100%;">
+        <a href="#" class="cta-primary" style="width:100%;justify-content:center;">Investment-Machbarkeitscheck starten →</a>
+        
+      </div>
+      <a href="#" class="cta-secondary" style="width:100%;justify-content:center;margin-top:10px;">Kostenloses Erstgespräch buchen</a>
+      <p class="cta-fine">Beispielrechnungen · persönliche Ergebnisse im Gespräch</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="f-brand">Kulturdenkmal Invest GmbH · Study-WG-Konzept</div>
+  <div class="f-links"><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Kontakt</a></div>
+  <p class="f-disc">Alle Angaben sind Beispielrechnungen ohne Gewähr. Die individuelle steuerliche und finanzielle Wirkung hängt von persönlichen Faktoren wie Einkommen, Zinsniveau und Steuersatz ab.</p>
+</footer>
+
+
+<script>
+const nav = document.getElementById('mainnav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
