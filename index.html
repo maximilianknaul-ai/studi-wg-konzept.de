@@ -173,8 +173,9 @@ body {
 ════════════════════ */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 18px var(--px);
-  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--px);
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
   transition: background 0.3s, box-shadow 0.3s;
 }
 nav.scrolled {
@@ -183,16 +184,46 @@ nav.scrolled {
 }
 .nav-brand {
   font-family: 'Instrument Serif', serif;
-  font-size: 1rem; color: var(--text); letter-spacing: 0.02em;
+  font-size: 0.95rem; color: var(--text); letter-spacing: 0.02em;
+  white-space: nowrap; flex-shrink: 0;
 }
 .nav-brand span { color: var(--green-br); }
+.nav-links {
+  display: flex; align-items: center; gap: 4px;
+  flex: 1; justify-content: center;
+  overflow-x: auto; scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-link {
+  padding: 6px 12px; border-radius: 4px;
+  font-size: 0.78rem; font-weight: 500; color: var(--text-mid);
+  text-decoration: none; white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+.nav-link:hover { color: var(--text); background: rgba(13,26,16,0.06); }
+.nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.nav-check {
+  background: transparent; color: var(--green);
+  padding: 7px 14px; border-radius: 3px;
+  font-size: 0.78rem; font-weight: 500; text-decoration: none;
+  border: 1.5px solid var(--border-g);
+  transition: background 0.2s, color 0.2s; white-space: nowrap;
+}
+.nav-check:hover { background: var(--green-lt); }
 .nav-cta {
   background: var(--green); color: #fff;
-  padding: 9px 20px; border-radius: 3px;
-  font-size: 0.8rem; font-weight: 500; text-decoration: none;
-  transition: background 0.2s;
+  padding: 8px 16px; border-radius: 3px;
+  font-size: 0.78rem; font-weight: 500; text-decoration: none;
+  transition: background 0.2s; white-space: nowrap;
 }
 .nav-cta:hover { background: var(--green-mid); }
+
+/* Mobile nav - hide links, keep brand + cta */
+@media (max-width: 860px) {
+  .nav-links { display: none; }
+  .nav-check { display: none; }
+  nav { padding: 0 20px; }
+}
 
 
 /* ════════════════════
@@ -202,7 +233,7 @@ nav.scrolled {
   min-height: 100vh;
   background: var(--bg);
   display: flex; flex-direction: column;
-  padding-top: 56px;
+  padding-top: 58px;
   position: relative; overflow: hidden;
 }
 #hero::before {
@@ -646,9 +677,9 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
   }
 
   /* NAV */
-  nav { padding: 14px 20px; }
-  .nav-brand { font-size: 0.88rem; }
-  .nav-cta { padding: 8px 16px; font-size: 0.78rem; }
+  nav { padding: 0 20px; height: 54px; }
+  .nav-brand { font-size: 0.85rem; }
+  .nav-cta { padding: 8px 14px; font-size: 0.76rem; }
 
   /* TICKER */
   .ticker-bar { padding: 9px 20px; gap: 24px; }
@@ -985,8 +1016,21 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
 
 <!-- ══════════ NAV ══════════ -->
 <nav id="mainnav">
-  <div class="nav-brand">KDI <span>·</span> Study-WG-Konzept</div>
-  <a href="#" onclick="openModal();return false;" class="nav-cta">Investment-Check →</a>
+  <div class="nav-brand">KDI <span>&#xB7;</span> Study-WG-Konzept</div>
+
+  <div class="nav-links">
+    <a href="#vsl" class="nav-link">Das Konzept</a>
+    <a href="#vergleich" class="nav-link">Der Unterschied</a>
+    <a href="#rechnung" class="nav-link">Rechenbeispiel</a>
+    <a href="#ablauf" class="nav-link">Der Weg</a>
+    <a href="#testimonial" class="nav-link">Kundenstimmen</a>
+    <a href="#faq" class="nav-link">FAQ</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="#" onclick="openBookingModal();return false;" class="nav-check">Erstgespr&#xE4;ch buchen</a>
+    <a href="#" onclick="openModal();return false;" class="nav-cta">Investment-Check &#x2192;</a>
+  </div>
 </nav>
 
 
@@ -1475,7 +1519,6 @@ function selectOption(el, qId, value) {
   const nextBtn = document.getElementById('next' + qNum);
   if (nextBtn) {
     if (qId === 'q1') {
-      // For q1, also require email
       const emailEl = document.getElementById('emailInput');
       const email = emailEl ? emailEl.value.trim() : '';
       const emailValid = email.length > 4 && email.includes('@') && email.includes('.');
@@ -1484,19 +1527,19 @@ function selectOption(el, qId, value) {
       nextBtn.disabled = false;
     }
   }
-  sendToZapier(false);
+  // Send after every answer so partial data is captured even if user leaves
+  if (answers['email']) sendToZapier(false);
 }
 
 function nextQuestion(current) {
   if (current === 0) {
     leadName = document.getElementById('nameInput').value.trim();
     answers['name'] = leadName;
-    sendToZapier(false);
   }
   if (current === 1) {
     const emailEl = document.getElementById('emailInput');
     if (emailEl) answers['email'] = emailEl.value.trim();
-    sendToZapier(false);
+    sendToZapier(false); // First send - Zapier creates the row
   }
   const next = current + 1;
   document.getElementById('q' + current).classList.remove('active');
