@@ -1457,6 +1457,15 @@ function checkName() {
   const dsgvo = document.getElementById('dsgvoCheck').checked;
   document.getElementById('next0').disabled = !(name.length >= 2 && dsgvo);
 }
+function checkEmail() {
+  const email = document.getElementById('emailInput').value.trim();
+  const emailValid = email.length > 4 && email.includes('@') && email.includes('.');
+  answers['email'] = emailValid ? email : '';
+  // re-check if q1 answer already selected
+  if (answers['q1']) {
+    document.getElementById('next1').disabled = !emailValid;
+  }
+}
 
 function selectOption(el, qId, value) {
   el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
@@ -1464,8 +1473,17 @@ function selectOption(el, qId, value) {
   answers[qId] = value;
   const qNum = qId.replace('q', '');
   const nextBtn = document.getElementById('next' + qNum);
-  if (nextBtn) nextBtn.disabled = false;
-  // Send partial data to Zapier after each answer
+  if (nextBtn) {
+    if (qId === 'q1') {
+      // For q1, also require email
+      const emailEl = document.getElementById('emailInput');
+      const email = emailEl ? emailEl.value.trim() : '';
+      const emailValid = email.length > 4 && email.includes('@') && email.includes('.');
+      nextBtn.disabled = !emailValid;
+    } else {
+      nextBtn.disabled = false;
+    }
+  }
   sendToZapier(false);
 }
 
@@ -1473,6 +1491,11 @@ function nextQuestion(current) {
   if (current === 0) {
     leadName = document.getElementById('nameInput').value.trim();
     answers['name'] = leadName;
+    sendToZapier(false);
+  }
+  if (current === 1) {
+    const emailEl = document.getElementById('emailInput');
+    if (emailEl) answers['email'] = emailEl.value.trim();
     sendToZapier(false);
   }
   const next = current + 1;
@@ -1496,6 +1519,7 @@ function prevQuestion(current) {
 function sendToZapier(completed) {
   const payload = {
     name: answers['name'] || leadName || '',
+    email: answers['email'] || '',
     lebenssituation: answers['q1'] || '',
     einkommen: answers['q2'] || '',
     eigenkapital: answers['q3'] || '',
@@ -1560,6 +1584,7 @@ function showResult() {
 
   let tagsHtml = '';
   if (answers['name']) tagsHtml += `<span class="summary-tag"><b>${answers['name']}</b></span>`;
+  if (answers['email']) tagsHtml += `<span class="summary-tag"><b>${answers['email']}</b></span>`;
   ['q1','q2','q3','q5','q6'].forEach(k => {
     const v = answers[k];
     if (v && labelMap[k] && labelMap[k][v]) {
@@ -1668,6 +1693,10 @@ function sendBookingToZapier() {
     <div class="question" id="q1">
       <div class="modal-body">
         <div class="q-step">Frage 1 von 7</div>
+        <div class="name-input-wrap" style="margin-bottom:20px;">
+          <input type="email" id="emailInput" placeholder="Deine E-Mail-Adresse" oninput="checkEmail()" autocomplete="email" style="border-color:var(--border-g);">
+          <div style="font-size:0.72rem;color:var(--text-dim);margin-top:6px;padding-left:2px;">&#x1F4E7; Nur f&#xFC;r dein pers&#xF6;nliches Ergebnis &#x2013; kein Newsletter.</div>
+        </div>
         <div class="q-text">Wie sieht deine Lebenssituation aus?</div>
         <div class="q-hint">Das beeinflusst das kombinierte Einkommen und die steuerliche Wirkung.</div>
         <div class="options">
