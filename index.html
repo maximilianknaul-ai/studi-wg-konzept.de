@@ -1517,17 +1517,27 @@ function prevQuestion(current) {
 
 // ── ZAPIER ──
 function sendToZapier(completed) {
+  const labels = {
+    q1: { single: 'Single', paar: 'Verheiratet / Partnerschaft', unklar: 'Noch unklar' },
+    q2: { 'unter40': 'Unter 40.000 €', '40-70': '40.000 – 70.000 €', '70-120': '70.000 – 120.000 €', 'ueber120': 'Über 120.000 €' },
+    q3: { 'unter10': 'Unter 10.000 €', '10-30': '10.000 – 30.000 €', '30-60': '30.000 – 60.000 €', 'ueber60': 'Über 60.000 €' },
+    q4: { 'keine': 'Keine Erfahrung', 'etf': 'ETFs / Aktien', 'immo': 'Erste Immo-Erfahrung', 'profi': 'Mehrere Anlageklassen' },
+    q5: { 'altersvorsorge': 'Altersvorsorge aufbauen', 'vermoegen': 'Vermögen aufbauen', 'steuer': 'Steuern sparen', 'passiv': 'Passives Einkommen' },
+    q6: { 'sofort': 'So schnell wie möglich', 'halbjahr': 'In 6 Monaten', 'jahr': 'In 1–2 Jahren', 'offen': 'Noch offen' },
+    q7: { 'komplex': 'Zu komplex / unklar', 'vertrauen': 'Kein Vertrauen', 'warten': 'Warte auf richtigen Moment', 'nichts': 'Bereit zum Start' },
+    result: { 'great': 'Sehr gutes Match', 'good': 'Gutes Match', 'explore': 'Erstgespräch empfohlen' }
+  };
   const payload = {
     name: answers['name'] || leadName || '',
     email: answers['email'] || '',
-    lebenssituation: answers['q1'] || '',
-    einkommen: answers['q2'] || '',
-    eigenkapital: answers['q3'] || '',
-    erfahrung: answers['q4'] || '',
-    ziel: answers['q5'] || '',
-    zeithorizont: answers['q6'] || '',
-    hindernis: answers['q7'] || '',
-    ergebnis: answers['result'] || '',
+    lebenssituation: labels.q1[answers['q1']] || answers['q1'] || '',
+    einkommen: labels.q2[answers['q2']] || answers['q2'] || '',
+    eigenkapital: labels.q3[answers['q3']] || answers['q3'] || '',
+    erfahrung: labels.q4[answers['q4']] || answers['q4'] || '',
+    ziel: labels.q5[answers['q5']] || answers['q5'] || '',
+    zeithorizont: labels.q6[answers['q6']] || answers['q6'] || '',
+    hindernis: labels.q7[answers['q7']] || answers['q7'] || '',
+    ergebnis: labels.result[answers['result']] || answers['result'] || '',
     abgeschlossen: completed ? 'ja' : 'nein',
     zeitstempel: new Date().toISOString(),
     quelle: 'studywg-invest.de'
@@ -1695,7 +1705,7 @@ function sendBookingToZapier() {
         <div class="q-step">Frage 1 von 7</div>
         <div class="name-input-wrap" style="margin-bottom:20px;">
           <input type="email" id="emailInput" placeholder="Deine E-Mail-Adresse" oninput="checkEmail()" autocomplete="email" style="border-color:var(--border-g);">
-          <div style="font-size:0.72rem;color:var(--text-dim);margin-top:6px;padding-left:2px;">&#x1F4E7; Nur f&#xFC;r dein pers&#xF6;nliches Ergebnis &#x2013; kein Newsletter.</div>
+          <div style="font-size:0.72rem;color:var(--text-dim);margin-top:6px;padding-left:2px;">&#x1F4E7; F&#xFC;r dein pers&#xF6;nliches Ergebnis &#x2013; Kein Spam. Versprochen.</div>
         </div>
         <div class="q-text">Wie sieht deine Lebenssituation aus?</div>
         <div class="q-hint">Das beeinflusst das kombinierte Einkommen und die steuerliche Wirkung.</div>
