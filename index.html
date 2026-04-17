@@ -407,7 +407,7 @@ nav.scrolled {
 .card-good .card-row { border-bottom-color: rgba(255,255,255,0.1); }
 .card-row:last-of-type { border-bottom: none; }
 .card-key-dark { color: var(--text-mid); }
-.card-key-light { color: rgba(255,255,255,0.5); }
+.card-key-light { color: rgba(255,255,255,1); font-size: 0.75rem; }
 /* Values always right-aligned */
 .card-row span:last-child { text-align: right; white-space: nowrap; }
 .card-footer {
@@ -1183,7 +1183,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
         <div class="card-title" style="color:var(--text);">Du trägst alles allein.</div>
         <div class="card-subtitle" style="color:var(--text-dim);">Jeden Monat. Aus eigener Tasche.</div>
         <div class="card-row"><span class="card-key-dark">Wer baut dein Vermögen auf?</span><span style="color:var(--red);font-weight:500;">Nur du</span></div>
-        <div class="card-row"><span class="card-key-dark">Steuerliche Entlastung</span><span style="color:var(--red);font-weight:500;">Keine</span></div>
+        <div class="card-row"><span class="card-key-dark">Steuerlast</span><span style="color:var(--red);font-weight:500;">Keine steuerliche Entlastung</span></div>
         <div class="card-row"><span class="card-key-dark">Monatlicher Eigenaufwand</span><span style="color:var(--red);font-weight:500;">100 % selbst</span></div>
         <div class="card-row"><span class="card-key-dark">Verwaltungsaufwand</span><span style="color:var(--text-mid);font-weight:500;">Du musst dich kümmern</span></div>
         <div class="card-row"><span class="card-key-dark">In 10 Jahren</span><span style="color:var(--red);font-weight:500;">Eventuelle Gewinne müssen versteuert werden</span></div>
@@ -1195,7 +1195,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
         <div class="card-title" style="color:#fff;">Mieter + Staat bauen für dich.</div>
         <div class="card-subtitle" style="color:rgba(255,255,255,0.4);">Bank finanziert · du bringst geringes Eigenkapital.</div>
         <div class="card-row"><span class="card-key-light">Wer finanziert dein Studi-WG-Konzept?</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Mieter + staatliche Förderungen</span></div>
-        <div class="card-row"><span class="card-key-light">Steuerliche Entlastung</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Steuerlast → wird in privates Vermögen umgewandelt</span></div>
+        <div class="card-row"><span class="card-key-light">Steuerlast</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Wird in privates Vermögen umgewandelt</span></div>
         <div class="card-row"><span class="card-key-light">Monatlicher Eigenaufwand</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Neutral – bzw. monatlicher Vermögenszuwachs</span></div>
         <div class="card-row"><span class="card-key-light">Verwaltungsaufwand</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Keiner</span></div>
         <div class="card-row"><span class="card-key-light">In 10 Jahren</span><span style="color:rgba(180,240,190,0.9);font-weight:500;">Wertentwicklung Leipzig – Nr. 1 in DE, steuerfreier Gewinn</span></div>
@@ -1624,7 +1624,7 @@ function sendToZapier(completed) {
     q4: { 'keine': 'Keine Erfahrung', 'etf': 'ETFs / Aktien', 'immo': 'Erste Immo-Erfahrung', 'profi': 'Mehrere Anlageklassen' },
     q5: { 'altersvorsorge': 'Altersvorsorge aufbauen', 'vermoegen': 'Vermögen aufbauen', 'steuer': 'Steuern sparen', 'passiv': 'Passives Einkommen' },
     q6: { 'sofort': 'So schnell wie möglich', 'halbjahr': 'In 6 Monaten', 'jahr': 'In 1–2 Jahren', 'offen': 'Noch offen' },
-    q7: { 'komplex': 'Zu komplex / unklar', 'vertrauen': 'Kein Vertrauen', 'warten': 'Warte auf richtigen Moment', 'nichts': 'Bereit zum Start' },
+    q7: { 'komplex': 'Zu komplex / unklar', 'vertrauen': 'Kein Vertrauen', 'leisten': 'Dachte nicht leistbar', 'nichts': 'Bereit zum Start' },
     result: { 'great': 'Sehr gutes Match', 'good': 'Gutes Match', 'explore': 'Erstgespräch empfohlen' }
   };
   const payload = {
@@ -1815,7 +1815,7 @@ function sendBookingToZapier() {
           <div style="font-size:0.72rem;color:var(--text-dim);margin-top:6px;padding-left:2px;">&#x1F4E7; F&#xFC;r dein pers&#xF6;nliches Ergebnis &#x2013; Kein Spam. Versprochen.</div>
         </div>
         <div class="q-text">Wie sieht deine Lebenssituation aus?</div>
-        <div class="q-hint">Das beeinflusst das kombinierte Einkommen und die steuerliche Wirkung.</div>
+        
         <div class="options">
           <div class="option" onclick="selectOption(this,'q1','single')"><span class="option-icon">&#x1F9D1;</span><span class="option-text"><span class="option-title">Single</span><span class="option-sub">Ich investiere alleine</span></span><span class="option-check">&#x2713;</span></div>
           <div class="option" onclick="selectOption(this,'q1','paar')"><span class="option-icon">&#x1F46B;</span><span class="option-text"><span class="option-title">Verheiratet / Feste Partnerschaft</span><span class="option-sub">Wir investieren gemeinsam oder zusammen veranlagt</span></span><span class="option-check">&#x2713;</span></div>
@@ -1852,7 +1852,7 @@ function sendBookingToZapier() {
       <div class="modal-body">
         <div class="q-step">Frage 3 von 7</div>
         <div class="q-text">Wie viel Eigenkapital k&#xF6;nntest du einsetzen?</div>
-        <div class="q-hint">Das Investment wird bankfinanziert &#x2013; du brauchst kein gro&#xDF;es Eigenkapital.</div>
+        
         <div class="options grid-2">
           <div class="option" onclick="selectOption(this,'q3','unter10')"><span class="option-text"><span class="option-title">Unter 10.000 &#x20AC;</span></span><span class="option-check">&#x2713;</span></div>
           <div class="option" onclick="selectOption(this,'q3','10-30')"><span class="option-text"><span class="option-title">10.000 &#x2013; 30.000 &#x20AC;</span></span><span class="option-check">&#x2713;</span></div>
@@ -1874,8 +1874,8 @@ function sendBookingToZapier() {
         <div class="q-hint">Keine Erfahrung? Kein Problem &#x2013; das Konzept ist bewusst f&#xFC;r Einsteiger strukturiert.</div>
         <div class="options">
           <div class="option" onclick="selectOption(this,'q4','keine')"><span class="option-icon">&#x1F331;</span><span class="option-text"><span class="option-title">Keine Erfahrung</span><span class="option-sub">Ich habe noch nie investiert</span></span><span class="option-check">&#x2713;</span></div>
-          <div class="option" onclick="selectOption(this,'q4','etf')"><span class="option-icon">&#x1F4CA;</span><span class="option-text"><span class="option-title">ETFs / Aktien / Fonds</span><span class="option-sub">Ich kenne mich mit Wertpapieren aus</span></span><span class="option-check">&#x2713;</span></div>
-          <div class="option" onclick="selectOption(this,'q4','immo')"><span class="option-icon">&#x1F3E0;</span><span class="option-text"><span class="option-title">Erste Immobilienerfahrung</span><span class="option-sub">Ich habe schon &#xFC;ber Immobilien nachgedacht oder bin Eigennutzer</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q4','etf')"><span class="option-icon">&#x1F4CA;</span><span class="option-text"><span class="option-title">ETFs / Aktien / Fonds</span><span class="option-sub">Ich habe bereits investiert</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q4','immo')"><span class="option-icon">&#x1F3E0;</span><span class="option-text"><span class="option-title">Erste Immobilienerfahrung</span><span class="option-sub">Ich habe schon &#xFC;ber Immobilien nachgedacht oder bin bereits Eigent&#xFC;mer</span></span><span class="option-check">&#x2713;</span></div>
           <div class="option" onclick="selectOption(this,'q4','profi')"><span class="option-icon">&#x1F3AF;</span><span class="option-text"><span class="option-title">Mehrere Anlageklassen</span><span class="option-sub">Ich investiere bereits aktiv und suche weitere Diversifikation</span></span><span class="option-check">&#x2713;</span></div>
         </div>
       </div>
@@ -1890,11 +1890,11 @@ function sendBookingToZapier() {
       <div class="modal-body">
         <div class="q-step">Frage 5 von 7</div>
         <div class="q-text">Was ist dein wichtigstes Ziel mit diesem Investment?</div>
-        <div class="q-hint">W&#xE4;hle das wichtigste Ziel aus.</div>
+        
         <div class="options">
           <div class="option" onclick="selectOption(this,'q5','altersvorsorge')"><span class="option-icon">&#x1F3D6;&#xFE0F;</span><span class="option-text"><span class="option-title">Altersvorsorge aufbauen</span><span class="option-sub">Langfristige finanzielle Sicherheit im Alter</span></span><span class="option-check">&#x2713;</span></div>
-          <div class="option" onclick="selectOption(this,'q5','vermoegen')"><span class="option-icon">&#x1F4C8;</span><span class="option-text"><span class="option-title">Verm&#xF6;gen aufbauen</span><span class="option-sub">Echtes Kapital durch Tilgung und Wertsteigerung</span></span><span class="option-check">&#x2713;</span></div>
-          <div class="option" onclick="selectOption(this,'q5','steuer')"><span class="option-icon">&#x1F4B6;</span><span class="option-text"><span class="option-title">Steuern sparen</span><span class="option-sub">Steuerlast jetzt reduzieren und Netto optimieren</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q5','vermoegen')"><span class="option-icon">&#x1F4C8;</span><span class="option-text"><span class="option-title">Verm&#xF6;gen aufbauen</span><span class="option-sub">Kapital wachsen lassen ohne Eigenaufwand</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q5','steuer')"><span class="option-icon">&#x1F4B6;</span><span class="option-text"><span class="option-title">Steuern sparen</span><span class="option-sub">Steuerlast jetzt reduzieren</span></span><span class="option-check">&#x2713;</span></div>
           <div class="option" onclick="selectOption(this,'q5','passiv')"><span class="option-icon">&#x1F634;</span><span class="option-text"><span class="option-title">Passives Einkommen</span><span class="option-sub">Geld arbeiten lassen ohne eigenen Aufwand</span></span><span class="option-check">&#x2713;</span></div>
         </div>
       </div>
@@ -1932,7 +1932,7 @@ function sendBookingToZapier() {
         <div class="options">
           <div class="option" onclick="selectOption(this,'q7','komplex')"><span class="option-icon">&#x1F9E9;</span><span class="option-text"><span class="option-title">Zu komplex und un&#xFC;bersichtlich</span><span class="option-sub">Ich verstehe das Thema noch nicht gut genug</span></span><span class="option-check">&#x2713;</span></div>
           <div class="option" onclick="selectOption(this,'q7','vertrauen')"><span class="option-icon">&#x1F91D;</span><span class="option-text"><span class="option-title">Kein Vertrauen / Schlechte Erfahrungen</span><span class="option-sub">Ich bin skeptisch gegen&#xFC;ber Anbietern in diesem Bereich</span></span><span class="option-check">&#x2713;</span></div>
-          <div class="option" onclick="selectOption(this,'q7','warten')"><span class="option-icon">&#x23F3;</span><span class="option-text"><span class="option-title">Warte auf den richtigen Moment</span><span class="option-sub">Irgendwann, aber noch nicht jetzt</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q7','leisten')"><span class="option-icon">&#x1F4B0;</span><span class="option-text"><span class="option-title">Ich dachte, das kann ich mir nicht leisten</span><span class="option-sub">Immobilien sind nichts f&#xFC;r mich</span></span><span class="option-check">&#x2713;</span></div>
           <div class="option" onclick="selectOption(this,'q7','nichts')"><span class="option-icon">&#x1F680;</span><span class="option-text"><span class="option-title">Nichts &#x2013; ich bin bereit</span><span class="option-sub">Ich m&#xF6;chte konkret anfangen</span></span><span class="option-check">&#x2713;</span></div>
         </div>
       </div>
