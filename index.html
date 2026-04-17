@@ -210,6 +210,11 @@ nav.scrolled {
   transition: background 0.2s, color 0.2s; white-space: nowrap;
 }
 .nav-check:hover { background: var(--green-lt); }
+.nav-check-short { display: none; }
+@media (max-width: 860px) {
+  .nav-check-long { display: none; }
+  .nav-check-short { display: inline; }
+}
 .nav-cta {
   background: var(--green); color: #fff;
   padding: 8px 16px; border-radius: 3px;
@@ -221,8 +226,9 @@ nav.scrolled {
 /* Mobile nav - hide links, keep brand + cta */
 @media (max-width: 860px) {
   .nav-links { display: none; }
-  .nav-check { display: none; }
-  nav { padding: 0 20px; }
+  nav { padding: 0 18px; gap: 10px; }
+  .nav-check { padding: 7px 12px; font-size: 0.72rem; }
+  .nav-cta { padding: 8px 12px; font-size: 0.72rem; }
 }
 
 
@@ -1082,7 +1088,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
   </div>
 
   <div class="nav-right">
-    <a href="#" onclick="openBookingModal();return false;" class="nav-check">Erstgespr&#xE4;ch buchen</a>
+    <a href="#" onclick="openBookingModal();return false;" class="nav-check"><span class="nav-check-long">Kostenloses Erstgespr&#xE4;ch buchen</span><span class="nav-check-short">Erstgespr&#xE4;ch</span></a>
     <a href="#" onclick="openModal();return false;" class="nav-cta">Investment-Check &#x2192;</a>
   </div>
 </nav>
@@ -1128,9 +1134,9 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
   </div>
 
   <div class="hero-bottom">
-    <div class="hb-item"><span class="hb-label">Hebel 01 · Mieter</span><span class="hb-val g">mind. 80–100 % mehr Mieteinnahmen</span></div>
-    <div class="hb-item"><span class="hb-label">Hebel 02 · Staat</span><span class="hb-val gold">mind. 5 % AfA-Abschreibung p. a.</span></div>
-    <div class="hb-item"><span class="hb-label">Hebel 03 · Jahr 1</span><span class="hb-val blue">100 % Renovierung sofort</span></div>
+    <div class="hb-item"><span class="hb-label">Hebel 01 · WG-Vermietung</span><span class="hb-val g">80–100 % mehr Mieteinnahmen</span></div>
+    <div class="hb-item"><span class="hb-label">Hebel 02 · Steuerförderung</span><span class="hb-val gold">5 % AfA-Abschreibung p. a.</span></div>
+    <div class="hb-item"><span class="hb-label">Hebel 03 · Wertsteigerung</span><span class="hb-val blue">Verdopplung in 15 Jahren</span></div>
     <div class="hb-cta"><a href="#" onclick="openModal();return false;">Investment-Check starten</a></div>
   </div>
 </section>
@@ -1185,7 +1191,7 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
         <div class="card-row"><span class="card-key-dark">Wer baut dein Vermögen auf?</span><span style="color:var(--red);font-weight:500;">Nur du</span></div>
         <div class="card-row"><span class="card-key-dark">Steuerlast</span><span style="color:var(--red);font-weight:500;">Keine steuerliche Entlastung</span></div>
         <div class="card-row"><span class="card-key-dark">Monatlicher Eigenaufwand</span><span style="color:var(--red);font-weight:500;">100 % selbst</span></div>
-        <div class="card-row"><span class="card-key-dark">Verwaltungsaufwand</span><span style="color:var(--text-mid);font-weight:500;">Du musst dich kümmern</span></div>
+        <div class="card-row"><span class="card-key-dark">Verwaltungsaufwand</span><span style="color:var(--red);font-weight:500;">Du musst dich kümmern</span></div>
         <div class="card-row"><span class="card-key-dark">In 10 Jahren</span><span style="color:var(--red);font-weight:500;">Eventuelle Gewinne müssen versteuert werden</span></div>
         <div class="card-footer" style="background:var(--red-bg);color:var(--red);">Du musst dein Eigenkapital verwenden und später darauf Steuern zahlen.</div>
       </div>
@@ -1230,25 +1236,25 @@ footer .f-disc { font-size: 0.68rem; color: var(--text-faint); width: 100%; text
     </div>
     <div class="hebel-grid">
       <div class="hebel-card reveal">
-        <span class="hebel-nr">Hebel 01 · Mieteinnahmen</span>
+        <span class="hebel-nr">Hebel 01 · WG-Vermietung</span>
         <span class="hebel-icon">🏠</span>
-        <h3>WG-Einzelzimmervermietung an Studierende</h3>
-        <p>Statt die Wohnung als Ganzes zu vermieten, wird sie in einzelne Zimmer mit separaten Mietverträgen aufgeteilt. Eine Spezialagentur übernimmt Vermietung und Verwaltung – mit langen Wartelisten.</p>
-        <span class="hebel-result g">→ 80–100 % mehr Mieteinnahmen als bei klassischer Vermietung</span>
+        <h3>Mieteinnahmen maximieren</h3>
+        <p>Statt die Wohnung als Ganzes zu vermieten, wird sie in Einzelzimmer mit separaten Mietverträgen aufgeteilt. Eine Spezialagentur übernimmt Vermietung und Verwaltung – mit langen Wartelisten.</p>
+        <span class="hebel-result g">→ 80–100 % mehr Mieteinnahmen als klassisch</span>
       </div>
       <div class="hebel-card reveal reveal-delay-1">
-        <span class="hebel-nr">Hebel 02 · Staatliche Förderung</span>
+        <span class="hebel-nr">Hebel 02 · Steuerförderung</span>
         <span class="hebel-icon">📋</span>
-        <h3>Erhöhte steuerliche Abschreibung</h3>
-        <p>Ein Gutachten reduziert die Restnutzungsdauer der Immobilie. Vom Gesetzgeber vorgesehen, also legal. Das verdoppelt mindestens die jährliche AfA-Abschreibung auf mindestens 5 %. Das Gutachten wird vom Initiator übernommen.</p>
-        <span class="hebel-result gold">→ mind. 5 % AfA-Abschreibung p. a. statt 2,5 %</span>
+        <h3>Staatliche Steuerförderung</h3>
+        <p>Ein Gutachten reduziert die Restnutzungsdauer der Immobilie – vom Gesetzgeber vorgesehen, also legal. Das verdoppelt mindestens die jährliche AfA-Abschreibung auf mindestens 5 %. Das Gutachten wird vom Initiator übernommen.</p>
+        <span class="hebel-result gold">→ 5 % AfA-Abschreibung p. a. statt 2,5 %</span>
       </div>
       <div class="hebel-card reveal reveal-delay-2">
-        <span class="hebel-nr">Hebel 03 · Sofortreduzierung der Steuerlast</span>
-        <span class="hebel-icon">⚡</span>
-        <h3>100 % Renovierungskosten im Kaufjahr</h3>
-        <p>Bei allen Studi-WGs wird die Zimmeranzahl der Wohnungen für das Konzept optimiert (z. B. aus 2 werden 3 Zimmer) und auf Erstbezugsniveau renoviert. Alle Gemeinschaftsflächen werden möbliert (z. B. Küche). Die Renovierungskosten (8–10 % vom Kaufpreis) werden separat vom Kaufpreis ausgewiesen und sind im Kaufjahr vollständig steuerlich absetzbar.</p>
-        <span class="hebel-result blue">→ Direkte Steuerentlastung im ersten Jahr</span>
+        <span class="hebel-nr">Hebel 03 · Wertsteigerung</span>
+        <span class="hebel-icon">📈</span>
+        <h3>Verdopplung des Investments in 15 Jahren</h3>
+        <p>Der Leipziger Immobilienmarkt hat sich in den letzten 15 Jahren verdreifacht. Laut Postbank Wohnatlas ist für die kommenden 15 Jahre eine weitere Verdopplung prognostiziert – Platz 1 in Deutschland. Nach 10 Jahren Haltedauer sind Immobiliengewinne steuerfrei.</p>
+        <span class="hebel-result blue">→ Prognostizierte Verdopplung bis 2040</span>
       </div>
     </div>
     <div class="hebel-result-row reveal">
@@ -1932,7 +1938,7 @@ function sendBookingToZapier() {
         <div class="options">
           <div class="option" onclick="selectOption(this,'q7','komplex')"><span class="option-icon">&#x1F9E9;</span><span class="option-text"><span class="option-title">Zu komplex und un&#xFC;bersichtlich</span><span class="option-sub">Ich verstehe das Thema noch nicht gut genug</span></span><span class="option-check">&#x2713;</span></div>
           <div class="option" onclick="selectOption(this,'q7','vertrauen')"><span class="option-icon">&#x1F91D;</span><span class="option-text"><span class="option-title">Kein Vertrauen / Schlechte Erfahrungen</span><span class="option-sub">Ich bin skeptisch gegen&#xFC;ber Anbietern in diesem Bereich</span></span><span class="option-check">&#x2713;</span></div>
-          <div class="option" onclick="selectOption(this,'q7','leisten')"><span class="option-icon">&#x1F4B0;</span><span class="option-text"><span class="option-title">Ich dachte, das kann ich mir nicht leisten</span><span class="option-sub">Immobilien sind nichts f&#xFC;r mich</span></span><span class="option-check">&#x2713;</span></div>
+          <div class="option" onclick="selectOption(this,'q7','leisten')"><span class="option-icon">&#x1F4B0;</span><span class="option-text"><span class="option-title">Ich dachte, das kann ich mir nicht leisten</span><span class="option-sub">Immobilien schienen mir immer unerreichbar</span></span><span class="option-check">&#x2713;</span></div>
           <div class="option" onclick="selectOption(this,'q7','nichts')"><span class="option-icon">&#x1F680;</span><span class="option-text"><span class="option-title">Nichts &#x2013; ich bin bereit</span><span class="option-sub">Ich m&#xF6;chte konkret anfangen</span></span><span class="option-check">&#x2713;</span></div>
         </div>
       </div>
@@ -2008,7 +2014,7 @@ function sendBookingToZapier() {
       </div>
       <div class="cal-step-body" style="padding:20px 28px 28px;">
         <div class="cal-step-header">
-          <h3>Kostenloses Erstgespr&#xE4;ch buchen</h3>
+          <h3>Kostenloses Kostenloses Erstgespr&#xE4;ch buchen</h3>
           <p>W&#xE4;hle direkt einen passenden Termin &#x2013; kostenlos und unverbindlich.</p>
         </div>
         <div class="cal-iframe-wrap">
@@ -2025,7 +2031,7 @@ function sendBookingToZapier() {
   <div class="booking-modal">
     <div class="booking-modal-header">
       <div>
-        <h3>Kostenloses Erstgespr&#xE4;ch buchen</h3>
+        <h3>Kostenloses Kostenloses Erstgespr&#xE4;ch buchen</h3>
         <p>Unverbindlich &middot; Pers&#xF6;nlich &middot; Ohne Verkaufsdruck</p>
       </div>
       <button class="modal-close" onclick="closeBookingModal()">&#x2715;</button>
